@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEXVARY FoodGuard</string>
+    <string name="tagline">Conoce tus alimentos antes de comerlos</string>
+    <string name="scan_food">Analizar alimento</string>
+    <string name="scan_subtitle">Comprobación visual privada en el dispositivo</string>
+    <string name="search_hint">Buscar alimento, fruta, bebida o plato</string>
+    <string name="categories">Categorías</string>
+    <string name="fruits">Frutas</string>
+    <string name="vegetables">Verduras</string>
+    <string name="meat">Carne</string>
+    <string name="poultry">Aves</string>
+    <string name="fish">Pescado y marisco</string>
+    <string name="dairy">Lácteos</string>
+    <string name="bakery">Panadería</string>
+    <string name="prepared">Comida preparada</string>
+    <string name="drinks">Bebidas</string>
+    <string name="canned">Enlatados y envasados</string>
+    <string name="featured">Guía destacada</string>
+    <string name="owaisi_mango">Mango Owaisi</string>
+    <string name="owaisi_subtitle">Mango egipcio • guía visual de madurez</string>
+    <string name="looks_normal">Aspecto visual normal</string>
+    <string name="ripe">Maduro</string>
+    <string name="caution">Precaución</string>
+    <string name="danger">Desechar</string>
+    <string name="mango_normal_desc">La pulpa sana suele ir del amarillo al naranja intenso, con aroma dulce y textura suave pero consistente. Un centro naranja más oscuro por sí solo no significa deterioro.</string>
+    <string name="mango_spoilage_title">Señales visibles de deterioro</string>
+    <string name="mango_spoilage_desc">Busque zonas negras o marrones blandas, viscosidad, fugas de líquido, moho, olor fuerte fermentado o alcohólico, o sabor anormalmente ácido.</string>
+    <string name="storage">Conservación</string>
+    <string name="storage_desc">Deje madurar los mangos enteros a temperatura ambiente. Refrigere cuando estén maduros. Mantenga el mango cortado frío en un recipiente limpio y cerrado.</string>
+    <string name="safety_note">Una imagen no demuestra la seguridad microbiológica. Si el historial de conservación o el olor indican peligro, deseche el alimento.</string>
+    <string name="back">Atrás</string>
+    <string name="local_analysis">Análisis local</string>
+    <string name="analysis_placeholder">La base de análisis por cámara está lista para conectarse al modelo que funciona en el dispositivo.</string>
+</resources>
