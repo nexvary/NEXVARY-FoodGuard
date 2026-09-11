@@ -1,0 +1,27 @@
+# Android / Gradle
+.gradle/
+.idea/
+*.iml
+local.properties
+/build/
+**/build/
+.cxx/
+.externalNativeBuild/
+
+# Signing / secrets
+*.jks
+*.keystore
+keystore.properties
+secrets.properties
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Generated ML / private datasets
+private-datasets/
+training-private/
+*.tflite.tmp
