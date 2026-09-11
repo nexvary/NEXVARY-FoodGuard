@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEXVARY FoodGuard</string>
+    <string name="tagline">Conosci il tuo cibo prima di mangiarlo</string>
+    <string name="scan_food">Analizza il cibo</string>
+    <string name="scan_subtitle">Controllo visivo privato sul dispositivo</string>
+    <string name="search_hint">Cerca cibo, frutta, bevanda o piatto</string>
+    <string name="categories">Categorie</string>
+    <string name="fruits">Frutta</string>
+    <string name="vegetables">Verdure</string>
+    <string name="meat">Carne</string>
+    <string name="poultry">Pollame</string>
+    <string name="fish">Pesce e frutti di mare</string>
+    <string name="dairy">Latticini</string>
+    <string name="bakery">Prodotti da forno</string>
+    <string name="prepared">Cibi pronti</string>
+    <string name="drinks">Bevande</string>
+    <string name="canned">Conserve e confezionati</string>
+    <string name="featured">Guida in evidenza</string>
+    <string name="owaisi_mango">Mango Owaisi</string>
+    <string name="owaisi_subtitle">Mango egiziano • guida visiva alla maturazione</string>
+    <string name="looks_normal">Aspetto visivamente normale</string>
+    <string name="ripe">Maturo</string>
+    <string name="caution">Attenzione</string>
+    <string name="danger">Scartare</string>
+    <string name="mango_normal_desc">La polpa sana è in genere dal giallo all’arancio intenso, con profumo dolce e consistenza morbida ma compatta. Un centro arancio più scuro da solo non indica deterioramento.</string>
+    <string name="mango_spoilage_title">Segni visibili di deterioramento</string>
+    <string name="mango_spoilage_desc">Controlla zone nere o marroni molli, viscosità, perdite di liquido, muffa, forte odore fermentato o alcolico, oppure un sapore insolitamente acido.</string>
+    <string name="storage">Conservazione</string>
+    <string name="storage_desc">Lascia maturare i manghi interi a temperatura ambiente. Mettili in frigorifero quando sono maturi. Conserva il mango tagliato freddo in un contenitore pulito e chiuso.</string>
+    <string name="safety_note">Un’immagine non può dimostrare la sicurezza microbiologica. Se conservazione o odore indicano pericolo, scarta l’alimento.</string>
+    <string name="back">Indietro</string>
+    <string name="local_analysis">Analisi locale</string>
+    <string name="analysis_placeholder">La base per l’analisi con fotocamera è pronta per il modello eseguito sul dispositivo.</string>
+</resources>
