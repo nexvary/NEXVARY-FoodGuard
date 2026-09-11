@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s550_history">Verlauf</string>
+    <string name="s550_history_empty">Noch keine gespeicherten Prüfungen. Ihre Bewertungen werden nur auf diesem Gerät gespeichert.</string>
+    <string name="s550_clear_history">Verlauf löschen</string>
+    <string name="s550_history_local_note">Aktuelle Bewertungen werden lokal gespeichert und auf 100 Einträge begrenzt.</string>
+    <string name="s550_saved_to_history">Lokal im Verlauf gespeichert.</string>
+    <string name="s550_red_flags">Warnsignale</string>
+    <string name="s550_uncertainty">Unsicherheit</string>
+    <string name="s550_photo_retake">Foto muss neu aufgenommen werden</string>
+    <string name="s550_open_safety_guide">Sicherheitsleitfaden öffnen</string>
+    <string name="s550_stage">Stufe 550</string>
+    <string name="s550_share_result">Ergebnis teilen</string>
+    <string name="s550_recent_checks">Letzte Prüfungen</string>
+    <string name="s550_higher_risk">Lebensmittel mit höherem Risiko</string>
+    <string name="s550_all_risks">Alle Risikostufen</string>
+    <string name="s550_result_saved_note">Jede Bewertung wird lokal gespeichert, damit Sie sie später überprüfen können.</string>
+</resources>
