@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEXVARY FoodGuard</string>
+    <string name="tagline">Connaissez vos aliments avant de les manger</string>
+    <string name="scan_food">Analyser un aliment</string>
+    <string name="scan_subtitle">Contrôle visuel privé sur l’appareil</string>
+    <string name="search_hint">Rechercher aliment, fruit, boisson ou plat</string>
+    <string name="categories">Catégories</string>
+    <string name="fruits">Fruits</string>
+    <string name="vegetables">Légumes</string>
+    <string name="meat">Viandes</string>
+    <string name="poultry">Volaille</string>
+    <string name="fish">Poissons et fruits de mer</string>
+    <string name="dairy">Produits laitiers</string>
+    <string name="bakery">Boulangerie</string>
+    <string name="prepared">Plats préparés</string>
+    <string name="drinks">Boissons</string>
+    <string name="canned">Conserves et emballés</string>
+    <string name="featured">Guide à la une</string>
+    <string name="owaisi_mango">Mangue Owaisi</string>
+    <string name="owaisi_subtitle">Mangue égyptienne • guide visuel de maturité</string>
+    <string name="looks_normal">Aspect visuellement normal</string>
+    <string name="ripe">Mûr</string>
+    <string name="caution">Prudence</string>
+    <string name="danger">Jeter</string>
+    <string name="mango_normal_desc">La chair saine va généralement du jaune à l’orange foncé, avec une odeur sucrée et une texture tendre mais cohérente. Un centre orange plus foncé ne signifie pas à lui seul une altération.</string>
+    <string name="mango_spoilage_title">Signes visibles d’altération</string>
+    <string name="mango_spoilage_desc">Surveillez les zones noires ou brunes molles, la viscosité, les fuites, la moisissure, une forte odeur fermentée ou alcoolisée, ou un goût anormalement acide.</string>
+    <string name="storage">Conservation</string>
+    <string name="storage_desc">Laissez mûrir les mangues entières à température ambiante. Réfrigérez-les une fois mûres. Gardez la mangue coupée au froid dans un récipient propre et fermé.</string>
+    <string name="safety_note">Une image ne prouve pas la sécurité microbiologique. Si la conservation ou l’odeur indique un danger, jetez l’aliment.</string>
+    <string name="back">Retour</string>
+    <string name="local_analysis">Analyse locale</string>
+    <string name="analysis_placeholder">La base d’analyse caméra est prête pour la couche de modèle exécutée sur l’appareil.</string>
+</resources>
