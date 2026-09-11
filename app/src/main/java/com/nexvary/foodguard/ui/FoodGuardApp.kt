@@ -104,9 +104,8 @@ import com.nexvary.foodguard.ui.theme.ElectricBlue
 import com.nexvary.foodguard.ui.theme.FoodGuardTheme
 import com.nexvary.foodguard.ui.theme.Fresh
 import com.nexvary.foodguard.ui.theme.Gold
-import java.util.Locale
 
-private sealed interface Screen {
+private sealed interface Screen : java.io.Serializable {
     data object Home : Screen
     data object Catalog : Screen
     data object Scanner : Screen
@@ -425,7 +424,7 @@ private fun FoodCard(food: FoodItem, onClick: () -> Unit) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Surface(shape = RoundedCornerShape(14.dp), color = riskColor.copy(alpha = 0.12f)) {
                 Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
-                    Text(food.localizedName().take(1).uppercase(Locale.getDefault()), fontWeight = FontWeight.Black, color = riskColor)
+                    Text(food.localizedName().take(1), fontWeight = FontWeight.Black, color = riskColor)
                 }
             }
             Spacer(Modifier.width(13.dp))
@@ -776,8 +775,8 @@ private fun SettingsScreen(modifier: Modifier, themeMode: ThemeMode, onThemeMode
         }
         item {
             SettingsCard(title = stringResource(R.string.appearance), icon = if (themeMode == ThemeMode.DARK) Icons.Outlined.DarkMode else Icons.Outlined.LightMode) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    ThemeMode.entries.forEach { mode ->
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(ThemeMode.entries) { mode ->
                         AssistChip(
                             onClick = { onThemeMode(mode) },
                             label = { Text(themeModeLabel(mode)) }
