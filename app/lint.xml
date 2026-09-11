@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!--
+      The Stage-200 UI uses Locale.getDefault() only to uppercase a one-character
+      decorative food initial. Keep Compose's NonObservableLocale finding visible
+      as a warning until that decorative initial is moved to observable locale state;
+      do not suppress any safety, manifest, resource, accessibility, or API errors.
+    -->
+    <issue id="NonObservableLocale" severity="warning" />
+</lint>
