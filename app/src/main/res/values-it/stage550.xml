@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s550_history">Cronologia</string>
+    <string name="s550_history_empty">Nessun controllo salvato. Le valutazioni eseguite vengono memorizzate solo su questo dispositivo.</string>
+    <string name="s550_clear_history">Cancella cronologia</string>
+    <string name="s550_history_local_note">Le valutazioni recenti vengono conservate localmente con un limite di 100 record.</string>
+    <string name="s550_saved_to_history">Salvato localmente nella cronologia.</string>
+    <string name="s550_red_flags">Segnali di rischio</string>
+    <string name="s550_uncertainty">Incertezza</string>
+    <string name="s550_photo_retake">La foto deve essere ripetuta</string>
+    <string name="s550_open_safety_guide">Apri guida alla sicurezza</string>
+    <string name="s550_stage">Fase 550</string>
+    <string name="s550_share_result">Condividi risultato</string>
+    <string name="s550_recent_checks">Controlli recenti</string>
+    <string name="s550_higher_risk">Alimenti a rischio più elevato</string>
+    <string name="s550_all_risks">Tutti i rischi</string>
+    <string name="s550_result_saved_note">Ogni valutazione viene salvata localmente per poterla rivedere in seguito.</string>
+</resources>
