@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.nexvary.foodguard"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.nexvary.foodguard"
@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2026.08.00")
+    val composeBom = platform("androidx.compose:compose-bom:2026.04.01")
 
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.activity:activity-compose:1.13.0")
