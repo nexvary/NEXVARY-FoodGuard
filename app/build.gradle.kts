@@ -11,8 +11,8 @@ android {
         applicationId = "com.nexvary.foodguard"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.2.0-stage200"
+        versionCode = 5
+        versionName = "0.5.0-stage550"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
