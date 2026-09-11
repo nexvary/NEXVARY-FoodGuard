@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEXVARY FoodGuard</string>
+    <string name="tagline">Kenne dein Essen, bevor du es isst</string>
+    <string name="scan_food">Lebensmittel prüfen</string>
+    <string name="scan_subtitle">Private visuelle Prüfung direkt auf dem Gerät</string>
+    <string name="search_hint">Lebensmittel, Obst, Getränk oder Gericht suchen</string>
+    <string name="categories">Kategorien</string>
+    <string name="fruits">Obst</string>
+    <string name="vegetables">Gemüse</string>
+    <string name="meat">Fleisch</string>
+    <string name="poultry">Geflügel</string>
+    <string name="fish">Fisch und Meeresfrüchte</string>
+    <string name="dairy">Milchprodukte</string>
+    <string name="bakery">Backwaren</string>
+    <string name="prepared">Fertiggerichte</string>
+    <string name="drinks">Getränke</string>
+    <string name="canned">Konserven und Verpacktes</string>
+    <string name="featured">Empfohlener Leitfaden</string>
+    <string name="owaisi_mango">Owaisi-Mango</string>
+    <string name="owaisi_subtitle">Ägyptische Mango • visueller Reifeleitfaden</string>
+    <string name="looks_normal">Sieht optisch normal aus</string>
+    <string name="ripe">Reif</string>
+    <string name="caution">Vorsicht</string>
+    <string name="danger">Entsorgen</string>
+    <string name="mango_normal_desc">Gesundes Fruchtfleisch ist meist gelb bis tief orange, riecht süß und ist weich, aber noch zusammenhängend. Ein dunkleres Orange in der Mitte allein bedeutet keinen Verderb.</string>
+    <string name="mango_spoilage_title">Sichtbare Verderbszeichen</string>
+    <string name="mango_spoilage_desc">Achten Sie auf schwarze oder braune matschige Stellen, Schleim, austretende Flüssigkeit, Schimmel, starken gärigen oder alkoholischen Geruch oder ungewöhnlich sauren Geschmack.</string>
+    <string name="storage">Lagerung</string>
+    <string name="storage_desc">Ganze Mangos bei Raumtemperatur reifen lassen. Nach dem Reifen kühlen. Geschnittene Mango sauber und verschlossen im Kühlschrank aufbewahren.</string>
+    <string name="safety_note">Ein Bild kann mikrobiologische Sicherheit nicht beweisen. Wenn Lagerung oder Geruch auf Gefahr hindeuten, das Lebensmittel entsorgen.</string>
+    <string name="back">Zurück</string>
+    <string name="local_analysis">Lokale Analyse</string>
+    <string name="analysis_placeholder">Die Kameraanalyse-Grundlage ist bereit für das geräteinterne Modell.</string>
+</resources>
