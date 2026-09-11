@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEXVARY FoodGuard</string>
+    <string name="tagline">Know your food before you eat it</string>
+    <string name="scan_food">Scan food</string>
+    <string name="scan_subtitle">Private on-device visual check</string>
+    <string name="search_hint">Search food, fruit, drink or dish</string>
+    <string name="categories">Categories</string>
+    <string name="fruits">Fruits</string>
+    <string name="vegetables">Vegetables</string>
+    <string name="meat">Meat</string>
+    <string name="poultry">Poultry</string>
+    <string name="fish">Fish &amp; seafood</string>
+    <string name="dairy">Dairy</string>
+    <string name="bakery">Bakery</string>
+    <string name="prepared">Prepared food</string>
+    <string name="drinks">Drinks</string>
+    <string name="canned">Canned &amp; packaged</string>
+    <string name="featured">Featured guide</string>
+    <string name="owaisi_mango">Owaisi mango</string>
+    <string name="owaisi_subtitle">Egyptian mango • visual ripeness guide</string>
+    <string name="looks_normal">Looks visually normal</string>
+    <string name="ripe">Ripe</string>
+    <string name="caution">Caution</string>
+    <string name="danger">Discard</string>
+    <string name="mango_normal_desc">Healthy flesh is usually yellow to deep orange, with a sweet aroma and soft but coherent texture. A darker orange center alone does not mean spoilage.</string>
+    <string name="mango_spoilage_title">Visible spoilage signs</string>
+    <string name="mango_spoilage_desc">Watch for black or brown mushy areas, slime, leaking fluid, mold, a sharp fermented or alcoholic smell, or an unusually sour taste.</string>
+    <string name="storage">Storage</string>
+    <string name="storage_desc">Ripen whole mangoes at room temperature. Refrigerate once ripe. Keep cut mango chilled in a clean sealed container.</string>
+    <string name="safety_note">Images cannot prove microbiological safety. When storage history or smell suggests danger, discard the food.</string>
+    <string name="back">Back</string>
+    <string name="local_analysis">Local analysis</string>
+    <string name="analysis_placeholder">Camera analysis foundation is ready for the on-device model layer.</string>
+</resources>
