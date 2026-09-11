@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s550_history">History</string>
+    <string name="s550_history_empty">No saved checks yet. Evaluations you run are stored only on this device.</string>
+    <string name="s550_clear_history">Clear history</string>
+    <string name="s550_history_local_note">Recent evaluations are kept locally and capped at 100 records.</string>
+    <string name="s550_saved_to_history">Saved locally to History.</string>
+    <string name="s550_red_flags">Red flags</string>
+    <string name="s550_uncertainty">Uncertainty</string>
+    <string name="s550_photo_retake">Photo needs retake</string>
+    <string name="s550_open_safety_guide">Open safety guide</string>
+    <string name="s550_stage">Stage 550</string>
+    <string name="s550_share_result">Share result</string>
+    <string name="s550_recent_checks">Recent checks</string>
+    <string name="s550_higher_risk">Higher-risk foods</string>
+    <string name="s550_all_risks">All risks</string>
+    <string name="s550_result_saved_note">Each evaluation is saved locally so you can review it later.</string>
+</resources>

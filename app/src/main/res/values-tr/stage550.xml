@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s550_history">Geçmiş</string>
+    <string name="s550_history_empty">Henüz kayıtlı kontrol yok. Yaptığınız değerlendirmeler yalnızca bu cihazda saklanır.</string>
+    <string name="s550_clear_history">Geçmişi temizle</string>
+    <string name="s550_history_local_note">Son değerlendirmeler yerel olarak saklanır ve 100 kayıtla sınırlandırılır.</string>
+    <string name="s550_saved_to_history">Geçmişe yerel olarak kaydedildi.</string>
+    <string name="s550_red_flags">Risk işaretleri</string>
+    <string name="s550_uncertainty">Belirsizlik</string>
+    <string name="s550_photo_retake">Fotoğraf yeniden çekilmeli</string>
+    <string name="s550_open_safety_guide">Güvenlik kılavuzunu aç</string>
+    <string name="s550_stage">Aşama 550</string>
+    <string name="s550_share_result">Sonucu paylaş</string>
+    <string name="s550_recent_checks">Son kontroller</string>
+    <string name="s550_higher_risk">Daha yüksek riskli gıdalar</string>
+    <string name="s550_all_risks">Tüm riskler</string>
+    <string name="s550_result_saved_note">Her değerlendirme daha sonra inceleyebilmeniz için yerel olarak kaydedilir.</string>
+</resources>

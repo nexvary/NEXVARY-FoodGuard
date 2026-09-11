@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s550_history">Historial</string>
+    <string name="s550_history_empty">Aún no hay controles guardados. Las evaluaciones que realices se almacenan solo en este dispositivo.</string>
+    <string name="s550_clear_history">Borrar historial</string>
+    <string name="s550_history_local_note">Las evaluaciones recientes se guardan localmente con un máximo de 100 registros.</string>
+    <string name="s550_saved_to_history">Guardado localmente en el historial.</string>
+    <string name="s550_red_flags">Señales de alerta</string>
+    <string name="s550_uncertainty">Incertidumbre</string>
+    <string name="s550_photo_retake">La foto debe repetirse</string>
+    <string name="s550_open_safety_guide">Abrir guía de seguridad</string>
+    <string name="s550_stage">Etapa 550</string>
+    <string name="s550_share_result">Compartir resultado</string>
+    <string name="s550_recent_checks">Controles recientes</string>
+    <string name="s550_higher_risk">Alimentos de mayor riesgo</string>
+    <string name="s550_all_risks">Todos los riesgos</string>
+    <string name="s550_result_saved_note">Cada evaluación se guarda localmente para que puedas revisarla más tarde.</string>
+</resources>
