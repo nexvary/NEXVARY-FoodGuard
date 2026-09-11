@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s550_history">السجل</string>
+    <string name="s550_history_empty">لا توجد فحوصات محفوظة بعد. يتم حفظ التقييمات التي تجريها على هذا الجهاز فقط.</string>
+    <string name="s550_clear_history">مسح السجل</string>
+    <string name="s550_history_local_note">يتم الاحتفاظ بآخر التقييمات محليًا بحد أقصى 100 سجل.</string>
+    <string name="s550_saved_to_history">تم الحفظ محليًا في السجل.</string>
+    <string name="s550_red_flags">علامات الخطر</string>
+    <string name="s550_uncertainty">عدم اليقين</string>
+    <string name="s550_photo_retake">الصورة تحتاج إلى إعادة التقاط</string>
+    <string name="s550_open_safety_guide">فتح دليل السلامة</string>
+    <string name="s550_stage">المرحلة 550</string>
+    <string name="s550_share_result">مشاركة النتيجة</string>
+    <string name="s550_recent_checks">الفحوصات الأخيرة</string>
+    <string name="s550_higher_risk">أطعمة أعلى خطورة</string>
+    <string name="s550_all_risks">كل مستويات الخطورة</string>
+    <string name="s550_result_saved_note">يتم حفظ كل تقييم محليًا حتى تتمكن من مراجعته لاحقًا.</string>
+</resources>
