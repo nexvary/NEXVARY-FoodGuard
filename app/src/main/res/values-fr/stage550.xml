@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s550_history">Historique</string>
+    <string name="s550_history_empty">Aucun contrôle enregistré pour le moment. Vos évaluations restent uniquement sur cet appareil.</string>
+    <string name="s550_clear_history">Effacer l’historique</string>
+    <string name="s550_history_local_note">Les évaluations récentes sont conservées localement, avec une limite de 100 entrées.</string>
+    <string name="s550_saved_to_history">Enregistré localement dans l’historique.</string>
+    <string name="s550_red_flags">Signaux d’alerte</string>
+    <string name="s550_uncertainty">Incertitude</string>
+    <string name="s550_photo_retake">La photo doit être reprise</string>
+    <string name="s550_open_safety_guide">Ouvrir le guide de sécurité</string>
+    <string name="s550_stage">Étape 550</string>
+    <string name="s550_share_result">Partager le résultat</string>
+    <string name="s550_recent_checks">Contrôles récents</string>
+    <string name="s550_higher_risk">Aliments à risque plus élevé</string>
+    <string name="s550_all_risks">Tous les niveaux de risque</string>
+    <string name="s550_result_saved_note">Chaque évaluation est enregistrée localement afin que vous puissiez la consulter plus tard.</string>
+</resources>
