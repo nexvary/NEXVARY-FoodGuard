@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEXVARY FoodGuard</string>
+    <string name="tagline">اعرف طعامك قبل أن تأكله</string>
+    <string name="scan_food">افحص الطعام</string>
+    <string name="scan_subtitle">فحص بصري خاص يعمل على جهازك</string>
+    <string name="search_hint">ابحث عن طعام أو فاكهة أو مشروب أو طبق</string>
+    <string name="categories">التصنيفات</string>
+    <string name="fruits">الفواكه</string>
+    <string name="vegetables">الخضروات</string>
+    <string name="meat">اللحوم</string>
+    <string name="poultry">الدواجن</string>
+    <string name="fish">الأسماك والمأكولات البحرية</string>
+    <string name="dairy">الألبان</string>
+    <string name="bakery">المخبوزات</string>
+    <string name="prepared">الأطعمة الجاهزة</string>
+    <string name="drinks">المشروبات</string>
+    <string name="canned">المعلبات والمعبأة</string>
+    <string name="featured">دليل مميز</string>
+    <string name="owaisi_mango">مانجو عويسي</string>
+    <string name="owaisi_subtitle">مانجو مصرية • دليل النضج البصري</string>
+    <string name="looks_normal">يبدو طبيعيًا بصريًا</string>
+    <string name="ripe">ناضج</string>
+    <string name="caution">تنبيه</string>
+    <string name="danger">تخلّص منه</string>
+    <string name="mango_normal_desc">يكون اللب السليم عادة من الأصفر إلى البرتقالي الغامق، برائحة حلوة وقوام طري لكنه متماسك. غمقان اللون البرتقالي قرب الوسط وحده لا يعني الفساد.</string>
+    <string name="mango_spoilage_title">علامات الفساد المرئية</string>
+    <string name="mango_spoilage_desc">انتبه للبقع السوداء أو البنية المهترئة، اللزوجة، تسرب السوائل، العفن، رائحة التخمر أو الكحول القوية، أو الطعم الحامض غير المعتاد.</string>
+    <string name="storage">التخزين</string>
+    <string name="storage_desc">اترك المانجو الكاملة تنضج في درجة حرارة الغرفة، ثم ضعها في الثلاجة بعد النضج. احفظ المانجو المقطعة مبردة في وعاء نظيف ومحكم.</string>
+    <string name="safety_note">الصورة لا تثبت السلامة الميكروبيولوجية. إذا كانت مدة التخزين أو الرائحة تشير إلى خطر فتخلّص من الطعام.</string>
+    <string name="back">رجوع</string>
+    <string name="local_analysis">تحليل محلي</string>
+    <string name="analysis_placeholder">تم تجهيز أساس تحليل الكاميرا لربطه بنموذج الذكاء الاصطناعي المحلي على الجهاز.</string>
+</resources>
