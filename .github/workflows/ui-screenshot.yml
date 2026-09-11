@@ -36,7 +36,7 @@ jobs:
       - name: Build debug APK
         run: gradle :app:assembleDebug --stacktrace
 
-      - name: Boot emulator and capture Home screen
+      - name: Boot emulator and capture delayed Home screens
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -50,14 +50,25 @@ jobs:
             adb shell settings put system font_scale 1.0
             adb shell am force-stop com.nexvary.foodguard
             adb shell am start -W -n com.nexvary.foodguard/.MainActivity
-            sleep 5
-            adb exec-out screencap -p > stage550-home.png
-            test -s stage550-home.png
+            sleep 3
+            adb exec-out screencap -p > stage550-home-03s.png
+            sleep 9
+            adb exec-out screencap -p > stage550-home-12s.png
+            sleep 13
+            adb exec-out screencap -p > stage550-home-25s.png
+            adb shell dumpsys activity activities | grep -E 'mResumedActivity|topResumedActivity' > activity-state.txt || true
+            adb logcat -d -t 500 > startup-logcat.txt || true
+            test -s stage550-home-25s.png
 
-      - name: Upload screenshot
+      - name: Upload screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: NEXVARY-FoodGuard-stage550-home-screenshot
-          path: stage550-home.png
+          name: NEXVARY-FoodGuard-stage550-delayed-screenshots
+          path: |
+            stage550-home-03s.png
+            stage550-home-12s.png
+            stage550-home-25s.png
+            activity-state.txt
+            startup-logcat.txt
           if-no-files-found: error
           retention-days: 14
