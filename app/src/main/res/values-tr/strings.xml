@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEXVARY FoodGuard</string>
+    <string name="tagline">Yemeden önce yiyeceğini tanı</string>
+    <string name="scan_food">Yiyeceği tara</string>
+    <string name="scan_subtitle">Cihazda çalışan özel görsel kontrol</string>
+    <string name="search_hint">Yiyecek, meyve, içecek veya yemek ara</string>
+    <string name="categories">Kategoriler</string>
+    <string name="fruits">Meyveler</string>
+    <string name="vegetables">Sebzeler</string>
+    <string name="meat">Et</string>
+    <string name="poultry">Kümes hayvanları</string>
+    <string name="fish">Balık ve deniz ürünleri</string>
+    <string name="dairy">Süt ürünleri</string>
+    <string name="bakery">Fırın ürünleri</string>
+    <string name="prepared">Hazır yemekler</string>
+    <string name="drinks">İçecekler</string>
+    <string name="canned">Konserve ve paketli</string>
+    <string name="featured">Öne çıkan rehber</string>
+    <string name="owaisi_mango">Owaisi mango</string>
+    <string name="owaisi_subtitle">Mısır mangosu • görsel olgunluk rehberi</string>
+    <string name="looks_normal">Görsel olarak normal görünüyor</string>
+    <string name="ripe">Olgun</string>
+    <string name="caution">Dikkat</string>
+    <string name="danger">Atın</string>
+    <string name="mango_normal_desc">Sağlıklı et genellikle sarıdan koyu turuncuya kadar olur; tatlı kokar ve yumuşak ama bütünlüklüdür. Merkezdeki daha koyu turuncu renk tek başına bozulma anlamına gelmez.</string>
+    <string name="mango_spoilage_title">Görünür bozulma işaretleri</string>
+    <string name="mango_spoilage_desc">Siyah veya kahverengi ezilmiş alanlara, sümüksü dokuya, sıvı sızıntısına, küfe, keskin fermente ya da alkollü kokuya ve alışılmadık ekşi tada dikkat edin.</string>
+    <string name="storage">Saklama</string>
+    <string name="storage_desc">Bütün mangoyu oda sıcaklığında olgunlaştırın. Olgunlaştığında buzdolabına alın. Kesilmiş mangoyu temiz ve kapalı bir kapta soğuk tutun.</string>
+    <string name="safety_note">Görüntüler mikrobiyolojik güvenliği kanıtlayamaz. Saklama geçmişi veya koku tehlike gösteriyorsa yiyeceği atın.</string>
+    <string name="back">Geri</string>
+    <string name="local_analysis">Yerel analiz</string>
+    <string name="analysis_placeholder">Kamera analiz altyapısı cihaz içi model katmanına bağlanmaya hazır.</string>
+</resources>
