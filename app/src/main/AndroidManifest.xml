@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_foodguard"
+        android:roundIcon="@drawable/ic_foodguard"
         android:label="@string/app_name"
         android:localeConfig="@xml/locales_config"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FoodGuard">
+        android:theme="@style/Theme.FoodGuard"
+        android:usesCleartextTraffic="false">
 
         <activity
             android:name=".MainActivity"

@@ -1,64 +1,70 @@
 # NEXVARY FoodGuard
 
-Android-first, privacy-focused food freshness and spoilage guide with on-device visual analysis.
+Android-first, multilingual and privacy-focused food freshness and visible-spoilage guide with local image assistance.
 
-## Product goals
+## Current milestone
 
-- Beautiful, premium UI with Arabic RTL and multilingual LTR support.
-- Visual encyclopedia for fruits, vegetables, meat, poultry, fish, dairy, baked goods, prepared foods, drinks, canned foods and packaged foods.
-- Each food entry documents normal appearance, ripeness stages, visible spoilage signs, storage guidance and when to discard.
-- Camera/gallery analysis designed to run locally on the device.
-- Results never claim that a food is "100% safe" from an image. The app distinguishes visual appearance from microbiological safety.
-- Optional follow-up questions about smell, texture, temperature and storage time improve guidance without uploading the user's image.
+**Stage 200 foundation — `0.2.0-stage200`**
 
-## v0.1 Foundation
+The Stage-200 pass expands the original prototype into a functional application foundation with a premium Compose UI, searchable food catalog, local scanner workflow, manual safety decision support, safety handbook, theme/language settings and CI release gates.
 
-The first milestone establishes:
+See [`docs/STAGE_200.md`](docs/STAGE_200.md) for the grouped stage record and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the technical structure.
 
-1. Android/Kotlin + Jetpack Compose project foundation.
-2. Premium dark visual system with semantic fresh / caution / danger states.
-3. Arabic, English, Turkish, French, Spanish, German and Italian resource structure.
-4. Correct RTL/LTR behavior.
-5. Home screen with food categories and scan entry point.
-6. First reference entry: Mango / Egyptian Owaisi mango.
-7. Architecture placeholders for local on-device food recognition and visible-spoilage analysis.
-8. UI release gate checklist for small screens, large fonts, long translations, back navigation and dead-link prevention.
+## What is implemented
 
-## Safety model
+- Kotlin + Jetpack Compose + Material 3.
+- Premium navy/gunmetal visual system with gold, fresh-green, amber, danger-red and electric-blue semantic accents.
+- Light and dark appearance modes.
+- Arabic RTL plus English, Turkish, French, Spanish, German and Italian resources.
+- Seven-language names for all 50 seed foods.
+- 10 categories: fruits, vegetables, meat, poultry, seafood, dairy, bakery, prepared foods, drinks and packaged foods.
+- Searchable local catalog and food detail screens.
+- Owaisi mango reference guide with normal ripeness vs visible spoilage guidance.
+- Camera and gallery image selection using Android system contracts.
+- Local image-quality analysis for luminance, saturation and dark-area ratio.
+- Manual checklist for mold, slime, odor, package condition and storage history.
+- Deterministic safety-rule layer with cautious verdicts.
+- Practical safety handbook.
+- About page with NEXVARY links.
+- Unit tests, lint gate and debug APK CI assembly.
 
-FoodGuard is a decision-support and education app, not a laboratory test. Some foodborne hazards cannot be seen, smelled or tasted. Visual analysis therefore reports states such as:
+## Important safety boundary
 
-- Looks visually normal
-- Very ripe / quality declining
-- Visible spoilage signs detected
-- Unable to determine from image
+FoodGuard is decision support and education, not a laboratory test. Some foodborne hazards cannot be seen, smelled or tasted. The app must not tell users that food is "100% safe" because a photo looks normal.
 
-High-risk guidance must prefer safe discard advice when storage history or visible signs indicate risk.
+Current visual analysis only assesses **photo quality** and supports visual comparison. A trained spoilage model is intentionally not represented as complete until per-food datasets, validation and calibration are available.
 
-## Planned architecture
+## Build stack
 
-- Kotlin
-- Jetpack Compose + Material 3
-- Local structured food knowledge base
-- On-device inference layer (LiteRT-ready abstraction)
-- CameraX integration
-- Offline-first history and preferences
-- No image upload required for core analysis
+- Android Gradle Plugin 9.4.0
+- Gradle 9.6.0 in CI
+- Kotlin 2.3.21
+- JDK 17
+- compileSdk / targetSdk 36
+- minSdk 26
 
-## UI release gate
+## Local build
 
-Before each release:
+The repository currently relies on CI-installed Gradle rather than committing a binary Gradle wrapper JAR. With JDK 17 and Gradle 9.6 installed:
 
-- No overlapping text/icons at supported font scales.
-- Arabic is true RTL; LTR languages remain LTR.
-- All visible buttons and cards are actionable or clearly disabled.
-- Back navigation works from every inner page.
-- Small-phone and large-phone layouts are checked.
-- Long German/French labels do not clip.
-- Light/dark contrast is accessible.
-- Camera and gallery permissions fail gracefully.
-- Analysis results include uncertainty and safety disclaimer.
+```bash
+gradle :app:testDebugUnitTest
+gradle :app:lintDebug
+gradle :app:assembleDebug
+```
 
-## Status
+The APK is produced at:
 
-Foundation work started on 2026-09-11.
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+## CI
+
+Every push to `main` runs unit tests, Android lint and debug assembly. The debug APK is uploaded as a workflow artifact only when the build job reaches that step successfully.
+
+**Do not call the build verified until GitHub Actions is green.**
+
+## Public repository note
+
+Do not commit signing keys, API keys, private datasets, unreleased training images, personal user photos or licensed assets that cannot be redistributed. The repository `.gitignore` is configured to reduce accidental exposure, but contributors remain responsible for reviewing every commit.
