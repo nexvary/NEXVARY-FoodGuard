@@ -62,6 +62,17 @@ enum class SafetyVerdict {
     INSUFFICIENT_INFORMATION
 }
 
+enum class SafetyReasonCode {
+    PACKAGE_COMPROMISED,
+    VISIBLE_MOLD,
+    SLIME_OR_STICKY_FILM,
+    ABNORMAL_ODOR,
+    UNSAFE_TIME_TEMPERATURE,
+    UNKNOWN_STORAGE_HISTORY,
+    NO_REPORTED_RED_FLAGS,
+    NOT_PROOF_OF_MICROBIOLOGICAL_SAFETY
+}
+
 data class ManualSafetyCheck(
     val visibleMold: Boolean = false,
     val slimeOrStickyFilm: Boolean = false,
@@ -69,9 +80,22 @@ data class ManualSafetyCheck(
     val leakingOrBulgingPackage: Boolean = false,
     val unsafeTimeTemperatureHistory: Boolean = false,
     val unknownStorageHistory: Boolean = false
-)
+) {
+    fun redFlagCount(): Int = listOf(
+        visibleMold,
+        slimeOrStickyFilm,
+        fermentedOrRottenOdor,
+        leakingOrBulgingPackage,
+        unsafeTimeTemperatureHistory
+    ).count { it }
+
+    fun uncertaintyCount(): Int = if (unknownStorageHistory) 1 else 0
+}
 
 data class SafetyAssessment(
     val verdict: SafetyVerdict,
-    val reasons: List<String>
+    val reasons: List<String>,
+    val reasonCodes: Set<SafetyReasonCode> = emptySet(),
+    val redFlagCount: Int = 0,
+    val uncertaintyCount: Int = 0
 )
