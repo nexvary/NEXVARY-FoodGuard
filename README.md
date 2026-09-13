@@ -16,7 +16,7 @@ See [`docs/STAGE_550.md`](docs/STAGE_550.md), [`docs/ARCHITECTURE.md`](docs/ARCH
 - Premium navy/gunmetal visual system with gold, fresh-green, amber, danger-red and electric-blue semantic accents.
 - Light, dark and system appearance modes.
 - Arabic RTL plus English, Turkish, French, Spanish, German and Italian resources.
-- 50 seed foods across 10 categories.
+- 120 catalog foods across 10 categories, including multiple Egyptian mango varieties, regional vegetables, meat, poultry, seafood, dairy, bakery, prepared foods, drinks and packaged foods.
 - Searchable catalog with category and risk-tier filters.
 - Food detail screens with normal signs, spoilage signs and storage guidance.
 - Camera and gallery image selection through Android system contracts.
