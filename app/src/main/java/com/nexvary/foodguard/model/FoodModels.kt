@@ -41,6 +41,19 @@ data class LocalizedLabel(
     }
 }
 
+enum class FoodReferenceState {
+    HEALTHY,
+    RIPE,
+    OVERRIPE,
+    SPOILAGE
+}
+
+data class FoodReferenceImage(
+    val assetKey: String,
+    val state: FoodReferenceState,
+    val caption: String
+)
+
 data class FoodItem(
     val id: String,
     val category: FoodCategory,
@@ -50,7 +63,8 @@ data class FoodItem(
     val spoilageSigns: List<String>,
     val storageTips: List<String>,
     val riskTier: RiskTier,
-    val featured: Boolean = false
+    val featured: Boolean = false,
+    val referenceImages: List<FoodReferenceImage> = emptyList()
 ) {
     fun localizedName(language: String = Locale.getDefault().language): String = name.resolve(language)
 }
