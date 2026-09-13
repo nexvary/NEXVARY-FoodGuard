@@ -4,19 +4,21 @@ Android-first, multilingual and privacy-focused food freshness and visible-spoil
 
 ## Current milestone
 
-**Stage 550 — `0.5.0-stage550`**
+**Stage 550 — `0.5.0-stage550` + rapid catalog expansion**
 
-Stage 550 extends the Stage-200 foundation with structured safety reason codes, local assessment history, risk-tier catalog filtering, a rebuilt navigation shell, plain-text result sharing, multilingual History UX, additional tests and release documentation.
+Stage 550 extends the Stage-200 foundation with structured safety reason codes, local assessment history, risk-tier catalog filtering, a rebuilt navigation shell, plain-text result sharing, multilingual History UX, additional tests and release documentation. The rapid expansion increases the working catalog to 220 foods and starts the bundled healthy/spoilage reference-image metadata layer.
 
 See [`docs/STAGE_550.md`](docs/STAGE_550.md), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/PRIVACY.md`](docs/PRIVACY.md) and [`docs/DATASET_READINESS.md`](docs/DATASET_READINESS.md).
 
 ## Implemented
 
 - Kotlin + Jetpack Compose + Material 3.
-- Premium navy/gunmetal visual system with gold, fresh-green, amber, danger-red and electric-blue semantic accents.
+- Premium deep-navy/gunmetal visual system upgraded with royal gold, electric cyan/blue/green and glowing silver accents.
 - Light, dark and system appearance modes.
 - Arabic RTL plus English, Turkish, French, Spanish, German and Italian resources.
-- 120 catalog foods across 10 categories, including multiple Egyptian mango varieties, regional vegetables, meat, poultry, seafood, dairy, bakery, prepared foods, drinks and packaged foods.
+- 220 catalog foods across 10 categories, including Egyptian mango varieties, regional produce, meat, poultry, seafood, dairy, bakery, prepared foods, drinks and packaged foods.
+- The newest 100 foods include healthy and visible-spoilage reference-image slots ready for bundled local assets.
+- More item-specific spoilage guidance for citrus, berries, coconut, leafy produce, dairy, baked foods, prepared foods, drinks and packaged foods.
 - Searchable catalog with category and risk-tier filters.
 - Food detail screens with normal signs, spoilage signs and storage guidance.
 - Camera and gallery image selection through Android system contracts.
