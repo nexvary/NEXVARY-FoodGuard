@@ -9,9 +9,9 @@ import org.junit.Test
 
 class FoodCatalogTest {
     @Test
-    fun catalogHasOneHundredTwentyUniqueItems() {
-        assertEquals(120, FoodCatalog.items.size)
-        assertEquals(120, FoodCatalog.items.map { it.id }.toSet().size)
+    fun catalogHasTwoHundredTwentyUniqueItems() {
+        assertEquals(220, FoodCatalog.items.size)
+        assertEquals(220, FoodCatalog.items.map { it.id }.toSet().size)
     }
 
     @Test
@@ -26,6 +26,13 @@ class FoodCatalogTest {
         FoodCatalog.items.forEach { item ->
             val names = listOf(item.name.en, item.name.ar, item.name.tr, item.name.fr, item.name.es, item.name.de, item.name.it)
             assertTrue("Missing localized name for ${item.id}", names.all { it.isNotBlank() })
+        }
+    }
+
+    @Test
+    fun newestHundredItemsExposeHealthyAndSpoilageReferenceSlots() {
+        FoodCatalog.items.takeLast(100).forEach { item ->
+            assertEquals("Reference slots missing for ${item.id}", 2, item.referenceImages.size)
         }
     }
 
@@ -45,6 +52,9 @@ class FoodCatalogTest {
         assertTrue(FoodCatalog.search("ملوخية").any { it.id == "molokhia" })
         assertTrue(FoodCatalog.search("كابوريا").any { it.id == "crab" })
         assertTrue(FoodCatalog.search("بتلو").any { it.id == "veal" })
+        assertTrue(FoodCatalog.search("قصب").any { it.id == "sugarcane_juice" })
+        assertTrue(FoodCatalog.search("شاورما").any { it.id == "shawarma" })
+        assertTrue(FoodCatalog.search("جندوفلي").any { it.id == "clams" })
     }
 
     @Test
