@@ -137,12 +137,13 @@ object FoodCatalog {
         item("deli_meat", FoodCategory.PACKAGED, label("Deli meat", "لحوم باردة", "Şarküteri eti", "Charcuterie", "Fiambre", "Aufschnitt", "Affettato"), RiskTier.HIGH)
     )
 
-    val items: List<FoodItem> = seedItems + FoodCatalogExpansion.items
+    val items: List<FoodItem> = seedItems + FoodCatalogExpansion.items + FoodCatalogExpansion2.items
 
     init {
         check(seedItems.size == 50) { "FoodGuard base catalog must contain exactly 50 seed items" }
-        check(FoodCatalogExpansion.items.size == 70) { "FoodGuard catalog expansion must contain exactly 70 items" }
-        check(items.size == 120) { "FoodGuard catalog must contain exactly 120 items" }
+        check(FoodCatalogExpansion.items.size == 70) { "FoodGuard first catalog expansion must contain exactly 70 items" }
+        check(FoodCatalogExpansion2.items.size == 100) { "FoodGuard second catalog expansion must contain exactly 100 items" }
+        check(items.size == 220) { "FoodGuard catalog must contain exactly 220 items" }
         check(items.map { it.id }.toSet().size == items.size) { "Food catalog IDs must be unique" }
     }
 
