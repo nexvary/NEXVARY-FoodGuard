@@ -54,7 +54,7 @@ class FoodCatalogTest {
         assertTrue(FoodCatalog.search("بتلو").any { it.id == "veal" })
         assertTrue(FoodCatalog.search("قصب").any { it.id == "sugarcane_juice" })
         assertTrue(FoodCatalog.search("شاورما").any { it.id == "shawarma" })
-        assertTrue(FoodCatalog.search("جندوفلي").any { it.id == "clams" })
+        assertTrue(FoodCatalog.search("جندوفلي").any { it.id == "cockles" })
     }
 
     @Test
