@@ -56,7 +56,7 @@ object FoodCatalog {
         featured: Boolean = false
     ) = FoodItem(id, category, name, aliases, normal, spoilage, storage, risk, featured)
 
-    val items: List<FoodItem> = listOf(
+    private val seedItems: List<FoodItem> = listOf(
         item(
             id = "owaisi_mango",
             category = FoodCategory.FRUIT,
@@ -137,8 +137,12 @@ object FoodCatalog {
         item("deli_meat", FoodCategory.PACKAGED, label("Deli meat", "لحوم باردة", "Şarküteri eti", "Charcuterie", "Fiambre", "Aufschnitt", "Affettato"), RiskTier.HIGH)
     )
 
+    val items: List<FoodItem> = seedItems + FoodCatalogExpansion.items
+
     init {
-        check(items.size == 50) { "FoodGuard v0.2 catalog must contain exactly 50 seed items" }
+        check(seedItems.size == 50) { "FoodGuard base catalog must contain exactly 50 seed items" }
+        check(FoodCatalogExpansion.items.size == 70) { "FoodGuard catalog expansion must contain exactly 70 items" }
+        check(items.size == 120) { "FoodGuard catalog must contain exactly 120 items" }
         check(items.map { it.id }.toSet().size == items.size) { "Food catalog IDs must be unique" }
     }
 
