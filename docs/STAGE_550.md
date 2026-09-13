@@ -33,6 +33,9 @@ The project stages are grouped delivery bands rather than 350 separate releases.
 ## 401–450 — catalog and decision support
 
 - Catalog supports text search, food-category filtering and risk-tier filtering.
+- Catalog expanded from 50 seed foods to 120 foods while retaining all 10 top-level categories.
+- Expansion includes Owaisi, Naomi, Keitt, Zebda, Timour and Sukkari mangoes plus additional regional produce, meats, poultry, seafood, dairy, bakery items, prepared foods, drinks and packaged foods.
+- Every added item includes names in Arabic, English, Turkish, French, Spanish, German and Italian.
 - Food details retain normal signs, spoilage signs and storage guidance.
 - Higher-risk foods are surfaced on the dashboard without claiming that other foods are risk-free.
 
@@ -50,7 +53,7 @@ The project stages are grouped delivery bands rather than 350 separate releases.
 
 ## 526–550 — release gate
 
-- Added assessment-summary unit tests.
+- Added assessment-summary and catalog-expansion unit tests.
 - CI still requires unit tests, Android lint and debug APK assembly.
 - CI artifact renamed to `NEXVARY-FoodGuard-stage550-debug`.
 - A build is considered verified only after the GitHub Actions workflow is green.
