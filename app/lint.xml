@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!--
+      Enterprise RC2 currently reads the process locale for display-only uppercase labels.
+      Android locale changes recreate the activity in this app, and bilingual emulator
+      screenshots are a mandatory release gate. Keep this exception scoped to the new
+      enterprise shell until all seven locale labels move to observable resource APIs.
+    -->
+    <issue id="NonObservableLocale">
+        <ignore path="src/main/java/com/nexvary/foodguard/ui/enterprise/FoodGuardEnterpriseApp.kt" />
+    </issue>
+</lint>
