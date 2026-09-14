@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build-test-lint:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -51,12 +51,12 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: NEXVARY-FoodGuard-stage550-debug
+          name: NEXVARY-FoodGuard-0.6.0-rc1-debug
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
 
-      - name: Boot emulator and capture Home screen
+      - name: Boot emulator and capture EN + Arabic RTL screens
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -68,16 +68,26 @@ jobs:
           script: |
             adb install -r app/build/outputs/apk/debug/app-debug.apk
             adb shell settings put system font_scale 1.0
+            adb shell settings put system system_locales en-US || true
             adb shell am force-stop com.nexvary.foodguard
             adb shell am start -W -n com.nexvary.foodguard/.MainActivity
             sleep 5
-            adb exec-out screencap -p > stage550-home.png
-            test -s stage550-home.png
+            adb exec-out screencap -p > rc1-home-en.png
+            test -s rc1-home-en.png
 
-      - name: Upload Home screenshot
+            adb shell settings put system system_locales ar-EG || true
+            adb shell am force-stop com.nexvary.foodguard
+            adb shell am start -W -n com.nexvary.foodguard/.MainActivity
+            sleep 5
+            adb exec-out screencap -p > rc1-home-ar.png
+            test -s rc1-home-ar.png
+
+      - name: Upload bilingual screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: NEXVARY-FoodGuard-stage550-home-screenshot
-          path: stage550-home.png
+          name: NEXVARY-FoodGuard-0.6.0-rc1-screenshots
+          path: |
+            rc1-home-en.png
+            rc1-home-ar.png
           if-no-files-found: error
           retention-days: 14
