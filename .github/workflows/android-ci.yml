@@ -30,6 +30,8 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
       - name: Install Android 36 SDK
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
@@ -51,7 +53,7 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: NEXVARY-FoodGuard-0.6.0-rc1-debug
+          name: NEXVARY-FoodGuard-enterprise-rc2-debug
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
@@ -71,23 +73,23 @@ jobs:
             adb shell settings put system system_locales en-US || true
             adb shell am force-stop com.nexvary.foodguard
             adb shell am start -W -n com.nexvary.foodguard/.MainActivity
-            sleep 5
-            adb exec-out screencap -p > rc1-home-en.png
-            test -s rc1-home-en.png
+            sleep 7
+            adb exec-out screencap -p > enterprise-home-en.png
+            test -s enterprise-home-en.png
 
             adb shell settings put system system_locales ar-EG || true
             adb shell am force-stop com.nexvary.foodguard
             adb shell am start -W -n com.nexvary.foodguard/.MainActivity
-            sleep 5
-            adb exec-out screencap -p > rc1-home-ar.png
-            test -s rc1-home-ar.png
+            sleep 7
+            adb exec-out screencap -p > enterprise-home-ar.png
+            test -s enterprise-home-ar.png
 
       - name: Upload bilingual screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: NEXVARY-FoodGuard-0.6.0-rc1-screenshots
+          name: NEXVARY-FoodGuard-enterprise-rc2-screenshots
           path: |
-            rc1-home-en.png
-            rc1-home-ar.png
+            enterprise-home-en.png
+            enterprise-home-ar.png
           if-no-files-found: error
           retention-days: 14
