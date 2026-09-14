@@ -7,6 +7,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 val Navy = Color(0xFF050C14)
 val Gunmetal = Color(0xFF15242C)
@@ -67,6 +69,19 @@ private val LightColors = lightColorScheme(
     onError = Color.White
 )
 
+private val FoodGuardTypography = Typography().run {
+    copy(
+        headlineMedium = headlineMedium.copy(fontSize = 30.sp, lineHeight = 36.sp, fontWeight = FontWeight.Black),
+        headlineSmall = headlineSmall.copy(fontSize = 25.sp, lineHeight = 31.sp, fontWeight = FontWeight.ExtraBold),
+        titleLarge = titleLarge.copy(fontSize = 22.sp, lineHeight = 28.sp, fontWeight = FontWeight.ExtraBold),
+        titleMedium = titleMedium.copy(fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Bold),
+        bodyLarge = bodyLarge.copy(fontSize = 17.sp, lineHeight = 25.sp),
+        bodyMedium = bodyMedium.copy(fontSize = 15.5.sp, lineHeight = 23.sp),
+        bodySmall = bodySmall.copy(fontSize = 13.5.sp, lineHeight = 19.sp),
+        labelLarge = labelLarge.copy(fontWeight = FontWeight.Bold)
+    )
+}
+
 @Composable
 fun FoodGuardTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -74,7 +89,7 @@ fun FoodGuardTheme(
 ) {
     MaterialTheme(
         colorScheme = if (darkTheme) DarkColors else LightColors,
-        typography = Typography(),
+        typography = FoodGuardTypography,
         content = content
     )
 }
