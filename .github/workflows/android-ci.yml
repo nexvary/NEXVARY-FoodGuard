@@ -15,8 +15,9 @@ concurrency:
 
 jobs:
   build-test-lint:
+    name: Build / Test / Lint
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -58,20 +59,35 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Boot emulator and verify EN + Arabic RTL screens
+  visual-qa:
+    name: Enterprise UI / RTL Gate
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Download tested APK
+        uses: actions/download-artifact@v5
+        with:
+          name: NEXVARY-FoodGuard-enterprise-rc2-debug
+          path: qa-apk
+
+      - name: Boot lightweight emulator and verify real UI
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 34
           arch: x86_64
-          target: google_apis
+          target: default
           profile: pixel_6
+          cores: 2
+          emulator-boot-timeout: 1500
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -camera-back none
           script: |
             set -euo pipefail
             PACKAGE="com.nexvary.foodguard"
             ACTIVITY="com.nexvary.foodguard/.MainActivity"
-            APK="app/build/outputs/apk/debug/app-debug.apk"
+            APK="qa-apk/app-debug.apk"
 
             adb install -r "$APK"
             adb shell settings put system font_scale 1.0
@@ -80,7 +96,7 @@ jobs:
               expected="$1"
               xml="$2"
               ready=0
-              for _ in $(seq 1 45); do
+              for _ in $(seq 1 60); do
                 adb shell uiautomator dump /sdcard/foodguard-window.xml >/dev/null 2>&1 || true
                 adb shell cat /sdcard/foodguard-window.xml > "$xml" 2>/dev/null || true
                 if grep -Fq "$expected" "$xml"; then
