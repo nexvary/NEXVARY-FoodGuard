@@ -58,7 +58,7 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Boot emulator and capture EN + Arabic RTL screens
+      - name: Boot emulator and verify EN + Arabic RTL screens
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -68,28 +68,68 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
-            adb install -r app/build/outputs/apk/debug/app-debug.apk
+            set -euo pipefail
+            PACKAGE="com.nexvary.foodguard"
+            ACTIVITY="com.nexvary.foodguard/.MainActivity"
+            APK="app/build/outputs/apk/debug/app-debug.apk"
+
+            adb install -r "$APK"
             adb shell settings put system font_scale 1.0
-            adb shell settings put system system_locales en-US || true
-            adb shell am force-stop com.nexvary.foodguard
-            adb shell am start -W -n com.nexvary.foodguard/.MainActivity
-            sleep 7
+
+            wait_for_ui() {
+              expected="$1"
+              xml="$2"
+              ready=0
+              for _ in $(seq 1 45); do
+                adb shell uiautomator dump /sdcard/foodguard-window.xml >/dev/null 2>&1 || true
+                adb shell cat /sdcard/foodguard-window.xml > "$xml" 2>/dev/null || true
+                if grep -Fq "$expected" "$xml"; then
+                  ready=1
+                  break
+                fi
+                sleep 2
+              done
+              if [ "$ready" -ne 1 ]; then
+                echo "::error::FoodGuard enterprise UI did not render expected text: $expected"
+                adb shell dumpsys activity top | head -n 220 || true
+                adb logcat -d -t 500 || true
+                exit 1
+              fi
+            }
+
+            set_app_locale() {
+              locale="$1"
+              adb shell cmd locale set-app-locales "$PACKAGE" --user current --locales "$locale"
+              adb shell am force-stop "$PACKAGE"
+              adb shell am start -W -n "$ACTIVITY"
+            }
+
+            set_app_locale "en-US"
+            wait_for_ui "NEXVARY" enterprise-home-en.xml
+            grep -Fq "FOOD SAFETY OPERATIONS" enterprise-home-en.xml
             adb exec-out screencap -p > enterprise-home-en.png
             test -s enterprise-home-en.png
 
-            adb shell settings put system system_locales ar-EG || true
-            adb shell am force-stop com.nexvary.foodguard
-            adb shell am start -W -n com.nexvary.foodguard/.MainActivity
-            sleep 7
+            set_app_locale "ar-EG"
+            wait_for_ui "NEXVARY" enterprise-home-ar.xml
+            if ! grep -Eq "فحص|دليل|السجل|قائمة المراقبة" enterprise-home-ar.xml; then
+              echo "::error::Arabic locale did not render Arabic enterprise content"
+              cat enterprise-home-ar.xml
+              exit 1
+            fi
             adb exec-out screencap -p > enterprise-home-ar.png
             test -s enterprise-home-ar.png
 
-      - name: Upload bilingual screenshots
+            adb shell cmd locale set-app-locales "$PACKAGE" --user current --locales ""
+
+      - name: Upload bilingual screenshots and UI hierarchies
         uses: actions/upload-artifact@v4
         with:
           name: NEXVARY-FoodGuard-enterprise-rc2-screenshots
           path: |
             enterprise-home-en.png
             enterprise-home-ar.png
+            enterprise-home-en.xml
+            enterprise-home-ar.xml
           if-no-files-found: error
           retention-days: 14
