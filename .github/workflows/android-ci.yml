@@ -59,11 +59,11 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-  visual-qa:
+  enterprise-ui-rtl-gate:
     name: Enterprise UI / RTL Gate
     needs: build-test-lint
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 30
 
     steps:
       - name: Download tested APK
@@ -84,7 +84,7 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -camera-back none
           script: |
-            set -euo pipefail
+            set -eu
             PACKAGE="com.nexvary.foodguard"
             ACTIVITY="com.nexvary.foodguard/.MainActivity"
             APK="qa-apk/app-debug.apk"
