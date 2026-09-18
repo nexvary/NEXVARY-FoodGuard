@@ -13,7 +13,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -123,9 +122,9 @@ import com.nexvary.foodguard.ui.theme.RoyalGold
 import java.util.Date
 import java.util.Locale
 
-private val EnterpriseNavy = Color(0xFF03080D)
-private val EnterprisePanel = Color(0xFF08131B)
-private val EnterprisePanelRaised = Color(0xFF0B1A24)
+private val EnterpriseNavy = Color(0xFF01050A)
+private val EnterprisePanel = Color(0xFF04101A)
+private val EnterprisePanelRaised = Color(0xFF071A28)
 private val EnterpriseGoldDeep = Color(0xFF7A5B12)
 
 private enum class EnterpriseScreen { HOME, CATALOG, SCANNER, HISTORY, SETTINGS, DETAIL }
@@ -136,11 +135,11 @@ fun FoodGuardEnterpriseApp() {
     val context = LocalContext.current
     val prefs = remember { context.getSharedPreferences("foodguard_settings", Context.MODE_PRIVATE) }
     var themeName by rememberSaveable {
-        mutableStateOf(prefs.getString("theme_mode", EnterpriseTheme.SYSTEM.name) ?: EnterpriseTheme.SYSTEM.name)
+        mutableStateOf(prefs.getString("theme_mode", EnterpriseTheme.DARK.name) ?: EnterpriseTheme.DARK.name)
     }
-    val mode = runCatching { EnterpriseTheme.valueOf(themeName) }.getOrDefault(EnterpriseTheme.SYSTEM)
+    val mode = runCatching { EnterpriseTheme.valueOf(themeName) }.getOrDefault(EnterpriseTheme.DARK)
     val dark = when (mode) {
-        EnterpriseTheme.SYSTEM -> isSystemInDarkTheme()
+        EnterpriseTheme.SYSTEM -> true
         EnterpriseTheme.LIGHT -> false
         EnterpriseTheme.DARK -> true
     }
@@ -169,7 +168,7 @@ private fun EnterpriseRoot(themeMode: EnterpriseTheme, onThemeMode: (EnterpriseT
 
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
-        containerColor = if (isSystemInDarkTheme()) EnterpriseNavy else MaterialTheme.colorScheme.background,
+        containerColor = EnterpriseNavy,
         bottomBar = {
             if (screen != EnterpriseScreen.DETAIL) EnterpriseNav(screen) { screen = it }
         }
