@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.text.format.DateFormat
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -47,6 +48,8 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.LocalCafe
 import androidx.compose.material.icons.outlined.LocalDrink
 import androidx.compose.material.icons.outlined.LunchDining
@@ -100,6 +103,7 @@ import com.nexvary.foodguard.R
 import com.nexvary.foodguard.analysis.ImageSignalReport
 import com.nexvary.foodguard.analysis.VisualHeuristicEngine
 import com.nexvary.foodguard.data.FoodCatalog
+import com.nexvary.foodguard.data.FoodGuidanceLocalizer
 import com.nexvary.foodguard.domain.SafetyRules
 import com.nexvary.foodguard.model.FoodCategory
 import com.nexvary.foodguard.model.FoodItem
@@ -127,7 +131,7 @@ private val EnterprisePanel = Color(0xFF04101A)
 private val EnterprisePanelRaised = Color(0xFF071A28)
 private val EnterpriseGoldDeep = Color(0xFF7A5B12)
 
-private enum class EnterpriseScreen { HOME, CATALOG, SCANNER, HISTORY, SETTINGS, DETAIL }
+private enum class EnterpriseScreen { HOME, CATALOG, SCANNER, HISTORY, SETTINGS, ABOUT, DETAIL }
 private enum class EnterpriseTheme { SYSTEM, LIGHT, DARK }
 
 @Composable
@@ -170,7 +174,7 @@ private fun EnterpriseRoot(themeMode: EnterpriseTheme, onThemeMode: (EnterpriseT
         contentWindowInsets = WindowInsets.safeDrawing,
         containerColor = EnterpriseNavy,
         bottomBar = {
-            if (screen != EnterpriseScreen.DETAIL) EnterpriseNav(screen) { screen = it }
+            if (screen != EnterpriseScreen.DETAIL && screen != EnterpriseScreen.ABOUT) EnterpriseNav(screen) { screen = it }
         }
     ) { padding ->
         when (screen) {
@@ -179,12 +183,14 @@ private fun EnterpriseRoot(themeMode: EnterpriseTheme, onThemeMode: (EnterpriseT
                 onScan = { screen = EnterpriseScreen.SCANNER },
                 onCatalog = { screen = EnterpriseScreen.CATALOG },
                 onHistory = { screen = EnterpriseScreen.HISTORY },
-                onFood = ::openFood
+                onSettings = { screen = EnterpriseScreen.SETTINGS },
+                onAbout = { screen = EnterpriseScreen.ABOUT }
             )
             EnterpriseScreen.CATALOG -> EnterpriseCatalog(Modifier.padding(padding), ::openFood)
             EnterpriseScreen.SCANNER -> EnterpriseScanner(Modifier.padding(padding))
             EnterpriseScreen.HISTORY -> EnterpriseHistory(Modifier.padding(padding), ::openFood)
             EnterpriseScreen.SETTINGS -> EnterpriseSettings(Modifier.padding(padding), themeMode, onThemeMode)
+            EnterpriseScreen.ABOUT -> EnterpriseAbout(Modifier.padding(padding)) { screen = EnterpriseScreen.HOME }
             EnterpriseScreen.DETAIL -> EnterpriseDetail(
                 Modifier.padding(padding),
                 FoodCatalog.byId(selectedFoodId),
@@ -237,37 +243,99 @@ private fun EnterpriseHome(
     onScan: () -> Unit,
     onCatalog: () -> Unit,
     onHistory: () -> Unit,
-    onFood: (String) -> Unit
+    onSettings: () -> Unit,
+    onAbout: () -> Unit
 ) {
-    val context = LocalContext.current
-    val history = remember { ScanHistoryStore(context).load() }
-    val highRisk = FoodCatalog.items.filter { it.riskTier == RiskTier.HIGH }
-    val references = FoodCatalog.items.count { it.referenceImages.isNotEmpty() }
-
     LazyColumn(
         modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 18.dp, vertical = 14.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         item { EnterpriseHeader() }
-        item { OperationsDeck(onScan, onCatalog) }
-        item { TelemetryStrip(FoodCatalog.items.size, highRisk.size, references, history.size) }
         item {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                CompactCommand(Modifier.weight(1f), Icons.Outlined.Search, localized("Index", "الدليل", "Dizin", "Index", "Índice", "Index", "Indice"), ElectricCyan, onCatalog)
-                CompactCommand(Modifier.weight(1f), Icons.Outlined.History, localized("History", "السجل", "Geçmiş", "Historique", "Historial", "Verlauf", "Cronologia"), GlowSilver, onHistory)
-                CompactCommand(Modifier.weight(1f), Icons.Outlined.CenterFocusStrong, localized("Inspect", "فحص", "İncele", "Inspecter", "Inspeccionar", "Prüfen", "Ispeziona"), RoyalGold, onScan)
-            }
+            ScreenHeader(
+                localized("Main menu", "القائمة الرئيسية", "Ana menü", "Menu principal", "Menú principal", "Hauptmenü", "Menu principale"),
+                "NEXVARY / FOODGUARD"
+            )
         }
-        item { SectionHeader(localized("Risk watchlist", "قائمة المراقبة عالية الخطورة", "Risk izleme", "Surveillance des risques", "Vigilancia de riesgo", "Risikoüberwachung", "Monitoraggio rischio"), "RISK INTELLIGENCE") }
-        items(highRisk.take(5), key = { it.id }) { food -> FoodRow(food) { onFood(food.id) } }
-        item { SectionHeader(stringResource(R.string.categories), "FOOD INDEX") }
         item {
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(FoodCategory.entries.toList()) { category -> CategoryChip(category, onCatalog) }
-            }
+            EnterpriseMenuRow(
+                Icons.Outlined.CenterFocusStrong,
+                localized("Inspect food", "فحص الطعام", "Gıdayı incele", "Inspecter un aliment", "Inspeccionar alimento", "Lebensmittel prüfen", "Ispeziona alimento"),
+                localized("Camera or gallery • on-device", "الكاميرا أو المعرض • الفحص على الجهاز", "Kamera veya galeri • cihazda", "Caméra ou galerie • sur l’appareil", "Cámara o galería • en dispositivo", "Kamera oder Galerie • lokal", "Fotocamera o galleria • sul dispositivo"),
+                RoyalGold,
+                onScan
+            )
         }
-        item { SafetyNotice() }
+        item {
+            EnterpriseMenuRow(
+                Icons.Outlined.MenuBook,
+                localized("Food guide", "دليل الأغذية", "Gıda rehberi", "Guide alimentaire", "Guía de alimentos", "Lebensmittel-Leitfaden", "Guida alimentare"),
+                localized("${FoodCatalog.items.size} indexed foods", "${FoodCatalog.items.size} صنفًا مسجلًا", "${FoodCatalog.items.size} kayıt", "${FoodCatalog.items.size} aliments", "${FoodCatalog.items.size} alimentos", "${FoodCatalog.items.size} Einträge", "${FoodCatalog.items.size} alimenti"),
+                ElectricCyan,
+                onCatalog
+            )
+        }
+        item {
+            EnterpriseMenuRow(
+                Icons.Outlined.History,
+                localized("Inspection history", "سجل الفحوصات", "İnceleme geçmişi", "Historique des inspections", "Historial de inspecciones", "Prüfverlauf", "Cronologia ispezioni"),
+                localized("Private records stored on this device", "سجل خاص محفوظ على هذا الجهاز", "Bu cihazda özel kayıt", "Historique privé sur cet appareil", "Historial privado en este dispositivo", "Private lokale Historie", "Cronologia privata sul dispositivo"),
+                GlowSilver,
+                onHistory
+            )
+        }
+        item {
+            EnterpriseMenuRow(
+                Icons.Outlined.Settings,
+                stringResource(R.string.settings),
+                localized("Language, appearance and product settings", "اللغة والمظهر وإعدادات المنتج", "Dil, görünüm ve ürün ayarları", "Langue, apparence et réglages", "Idioma, apariencia y ajustes", "Sprache, Darstellung und Einstellungen", "Lingua, aspetto e impostazioni"),
+                ElectricBlue,
+                onSettings
+            )
+        }
+        item {
+            EnterpriseMenuRow(
+                Icons.Outlined.Info,
+                localized("About", "عنا", "Hakkında", "À propos", "Acerca de", "Über", "Informazioni"),
+                localized("NEXVARY links and product information", "روابط NEXVARY ومعلومات التطبيق", "NEXVARY bağlantıları ve ürün bilgisi", "Liens NEXVARY et informations produit", "Enlaces NEXVARY e información", "NEXVARY-Links und Produktinfos", "Link NEXVARY e informazioni"),
+                Fresh,
+                onAbout
+            )
+        }
+    }
+}
+
+@Composable
+private fun EnterpriseMenuRow(
+    icon: ImageVector,
+    title: String,
+    subtitle: String,
+    accent: Color,
+    onClick: () -> Unit
+) {
+    Surface(
+        Modifier.fillMaxWidth().clickable(onClick = onClick),
+        RoundedCornerShape(7.dp),
+        MaterialTheme.colorScheme.surface,
+        border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.14f))
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.width(3.dp).height(76.dp).background(accent))
+            Box(
+                Modifier.padding(start = 13.dp).size(42.dp).border(1.dp, accent.copy(alpha = 0.42f), RoundedCornerShape(6.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, null, tint = accent, modifier = Modifier.size(23.dp))
+            }
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f).padding(vertical = 12.dp)) {
+                Text(title, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(2.dp))
+                Text(subtitle, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
+            Icon(Icons.AutoMirrored.Outlined.ChevronRight, null, tint = GlowSilver.copy(alpha = 0.52f), modifier = Modifier.padding(horizontal = 12.dp).size(20.dp))
+        }
     }
 }
 
@@ -492,9 +560,9 @@ private fun EnterpriseDetail(modifier: Modifier, food: FoodItem?, onBack: () -> 
         item { BackHeader(food.localizedName(), onBack) }
         item { FoodIdentity(food) }
         if (food.referenceImages.isNotEmpty()) item { EvidenceRail(food) }
-        item { EvidenceSection(localized("Normal profile", "العلامات الطبيعية", "Normal profil", "Profil normal", "Perfil normal", "Normales Profil", "Profilo normale"), food.normalSigns, Fresh, Icons.Outlined.CheckCircle) }
-        item { EvidenceSection(localized("Visible spoilage indicators", "مؤشرات التلف الظاهرة", "Görünür bozulma", "Signes visibles d’altération", "Indicadores visibles de deterioro", "Sichtbare Verderbniszeichen", "Segni visibili di deterioramento"), food.spoilageSigns, Danger, Icons.Outlined.WarningAmber) }
-        item { EvidenceSection(stringResource(R.string.storage), food.storageTips, ElectricBlue, Icons.Outlined.Inventory2) }
+        item { EvidenceSection(localized("Normal profile", "العلامات الطبيعية", "Normal profil", "Profil normal", "Perfil normal", "Normales Profil", "Profilo normale"), FoodGuidanceLocalizer.normal(food), Fresh, Icons.Outlined.CheckCircle) }
+        item { EvidenceSection(localized("Visible spoilage indicators", "مؤشرات التلف الظاهرة", "Görünür bozulma", "Signes visibles d’altération", "Indicadores visibles de deterioro", "Sichtbare Verderbniszeichen", "Segni visibili di deterioramento"), FoodGuidanceLocalizer.spoilage(food), Danger, Icons.Outlined.WarningAmber) }
+        item { EvidenceSection(stringResource(R.string.storage), FoodGuidanceLocalizer.storage(food), ElectricBlue, Icons.Outlined.Inventory2) }
         item {
             Surface(Modifier.fillMaxWidth().clickable(onClick = onScan), RoundedCornerShape(6.dp), RoyalGold, contentColor = Color(0xFF1B1200)) {
                 Row(Modifier.padding(14.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
@@ -521,12 +589,12 @@ private fun FoodIdentity(food: FoodItem) {
                 }
                 Spacer(Modifier.width(13.dp))
                 Column(Modifier.weight(1f)) {
-                    Text("FOOD RECORD / ${food.id.uppercase(Locale.ROOT)}", fontSize = 9.sp, color = ElectricCyan, fontWeight = FontWeight.Black)
+                    Text(localized("FOOD RECORD", "سجل الغذاء", "GIDA KAYDI", "FICHE ALIMENT", "REGISTRO ALIMENTO", "LEBENSMITTELAKTE", "SCHEDA ALIMENTO") + " / ${food.id.uppercase(Locale.ROOT)}", fontSize = 9.sp, color = ElectricCyan, fontWeight = FontWeight.Black)
                     Text(food.localizedName(), fontSize = 24.sp, fontWeight = FontWeight.Black)
                     Text(categoryLabel(food.category), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text("RISK", fontSize = 9.sp, color = GlowSilver.copy(alpha = 0.56f))
+                    Text(localized("RISK", "الخطورة", "RİSK", "RISQUE", "RIESGO", "RISIKO", "RISCHIO"), fontSize = 9.sp, color = GlowSilver.copy(alpha = 0.56f))
                     Text(riskLabel(food.riskTier).uppercase(Locale.getDefault()), fontWeight = FontWeight.Black, color = risk)
                 }
             }
@@ -537,7 +605,7 @@ private fun FoodIdentity(food: FoodItem) {
 @Composable
 private fun EvidenceRail(food: FoodItem) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        SectionHeader(localized("Reference evidence", "الأدلة المرجعية", "Referans kanıt", "Références visuelles", "Evidencia de referencia", "Referenzbelege", "Evidenza di riferimento"), "VISUAL EVIDENCE")
+        SectionHeader(localized("Reference evidence", "الأدلة المرجعية", "Referans kanıt", "Références visuelles", "Evidencia de referencia", "Referenzbelege", "Evidenza di riferimento"), localized("VISUAL EVIDENCE", "أدلة بصرية", "GÖRSEL KANIT", "PREUVES VISUELLES", "EVIDENCIA VISUAL", "VISUELLE BELEGE", "EVIDENZA VISIVA"))
         LazyRow(horizontalArrangement = Arrangement.spacedBy(9.dp)) { items(food.referenceImages) { EvidenceCard(food, it) } }
     }
 }
@@ -546,6 +614,7 @@ private fun EvidenceRail(food: FoodItem) {
 private fun EvidenceCard(food: FoodItem, ref: FoodReferenceImage) {
     val context = LocalContext.current
     val drawableId = remember(ref.assetKey) { context.resources.getIdentifier(ref.assetKey, "drawable", context.packageName) }
+    val caption = FoodGuidanceLocalizer.referenceCaption(ref.state, ref.caption)
     val accent = when (ref.state) {
         FoodReferenceState.HEALTHY -> Fresh
         FoodReferenceState.RIPE -> RoyalGold
@@ -555,7 +624,7 @@ private fun EvidenceCard(food: FoodItem, ref: FoodReferenceImage) {
     Surface(Modifier.width(182.dp), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, accent.copy(alpha = 0.34f))) {
         Column {
             if (drawableId != 0) {
-                Image(painterResource(drawableId), ref.caption, Modifier.fillMaxWidth().height(105.dp), contentScale = ContentScale.Crop)
+                Image(painterResource(drawableId), caption, Modifier.fillMaxWidth().height(105.dp), contentScale = ContentScale.Crop)
             } else {
                 Box(Modifier.fillMaxWidth().height(105.dp).background(EnterprisePanelRaised), contentAlignment = Alignment.Center) {
                     Icon(categoryIcon(food.category), null, tint = categoryAccent(food.category), modifier = Modifier.size(36.dp))
@@ -563,7 +632,7 @@ private fun EvidenceCard(food: FoodItem, ref: FoodReferenceImage) {
             }
             Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 Text(referenceStateLabel(ref.state).uppercase(Locale.getDefault()), fontSize = 9.sp, fontWeight = FontWeight.Black, color = accent)
-                Text(ref.caption, style = MaterialTheme.typography.bodySmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(caption, style = MaterialTheme.typography.bodySmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
         }
     }
@@ -780,6 +849,78 @@ private fun EnterpriseSettings(modifier: Modifier, themeMode: EnterpriseTheme, o
 }
 
 @Composable
+private fun EnterpriseAbout(modifier: Modifier, onBack: () -> Unit) {
+    val context = LocalContext.current
+    LazyColumn(
+        modifier.fillMaxSize(),
+        contentPadding = PaddingValues(18.dp),
+        verticalArrangement = Arrangement.spacedBy(11.dp)
+    ) {
+        item { BackHeader(localized("About", "عنا", "Hakkında", "À propos", "Acerca de", "Über", "Informazioni"), onBack) }
+        item {
+            Surface(
+                Modifier.fillMaxWidth(),
+                RoundedCornerShape(8.dp),
+                MaterialTheme.colorScheme.surface,
+                border = BorderStroke(1.dp, RoyalGold.copy(alpha = 0.28f))
+            ) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                    Text("NEXVARY", color = RoyalGold, fontWeight = FontWeight.Black, letterSpacing = 2.sp)
+                    Text("NEXVARY FoodGuard", fontSize = 22.sp, fontWeight = FontWeight.Black)
+                    Text(
+                        localized(
+                            "Local-first food intelligence and visible-spoilage decision support.",
+                            "منصة محلية أولاً لمعلومات الغذاء ودعم تقييم علامات التلف الظاهرة.",
+                            "Yerel öncelikli gıda bilgisi ve görünür bozulma karar desteği.",
+                            "Plateforme locale d’aide à l’évaluation des signes visibles d’altération.",
+                            "Plataforma local de información alimentaria y apoyo ante deterioro visible.",
+                            "Lokale Lebensmittelinformation und Entscheidungshilfe bei sichtbarem Verderb.",
+                            "Piattaforma locale per informazioni alimentari e supporto sul deterioramento visibile."
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+        item { SectionHeader(localized("Official links", "الروابط الرسمية", "Resmî bağlantılar", "Liens officiels", "Enlaces oficiales", "Offizielle Links", "Link ufficiali"), "NEXVARY") }
+        item { AboutLinkRow(Icons.Outlined.Language, "Website", "https://nexvary.com/", ElectricCyan) { openExternal(context, "https://nexvary.com/") } }
+        item { AboutLinkRow(Icons.Outlined.Share, "Facebook", "facebook.com/share/14p9krEn5ij/", ElectricBlue) { openExternal(context, "https://www.facebook.com/share/14p9krEn5ij/") } }
+        item { AboutLinkRow(Icons.Outlined.Email, "Email", "info@nexvary.com", RoyalGold) { openExternal(context, "mailto:info@nexvary.com") } }
+        item { AboutLinkRow(Icons.Outlined.PhotoLibrary, "YouTube", "youtube.com/@NexvaryInc", Danger) { openExternal(context, "https://www.youtube.com/@NexvaryInc") } }
+        item { AboutLinkRow(Icons.Outlined.Share, "X", "x.com/Nexvary", GlowSilver) { openExternal(context, "https://x.com/Nexvary") } }
+        item { SafetyNotice() }
+    }
+}
+
+@Composable
+private fun AboutLinkRow(icon: ImageVector, title: String, value: String, accent: Color, onClick: () -> Unit) {
+    Surface(
+        Modifier.fillMaxWidth().clickable(onClick = onClick),
+        RoundedCornerShape(7.dp),
+        MaterialTheme.colorScheme.surface,
+        border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.14f))
+    ) {
+        Row(Modifier.padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(38.dp).border(1.dp, accent.copy(alpha = 0.40f), RoundedCornerShape(5.dp)), contentAlignment = Alignment.Center) {
+                Icon(icon, null, tint = accent, modifier = Modifier.size(20.dp))
+            }
+            Spacer(Modifier.width(11.dp))
+            Column(Modifier.weight(1f)) {
+                Text(title, fontWeight = FontWeight.Bold)
+                Text(value, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
+            Icon(Icons.AutoMirrored.Outlined.ChevronRight, null, tint = GlowSilver.copy(alpha = 0.50f), modifier = Modifier.size(18.dp))
+        }
+    }
+}
+
+private fun openExternal(context: Context, uri: String) {
+    runCatching {
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uri)))
+    }
+}
+
+@Composable
 private fun ThemeRow(icon: ImageVector, label: String, selected: Boolean, onClick: () -> Unit) {
     Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
         Icon(icon, null, tint = if (selected) RoyalGold else GlowSilver.copy(alpha = 0.64f), modifier = Modifier.size(20.dp)); Spacer(Modifier.width(10.dp)); Text(label, Modifier.weight(1f), fontWeight = FontWeight.SemiBold); if (selected) Text("ACTIVE", fontSize = 9.sp, color = RoyalGold, fontWeight = FontWeight.Black)
@@ -795,7 +936,7 @@ private fun SettingsLine(icon: ImageVector, text: String, accent: Color) {
 private fun SafetyNotice() {
     Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, Amber.copy(alpha = 0.28f))) {
         Row(Modifier.padding(13.dp), verticalAlignment = Alignment.Top) {
-            Icon(Icons.Outlined.WarningAmber, null, tint = Amber, modifier = Modifier.size(19.dp)); Spacer(Modifier.width(9.dp)); Column { Text("SAFETY LIMIT", fontSize = 9.sp, color = Amber, fontWeight = FontWeight.Black); Text(stringResource(R.string.safety_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            Icon(Icons.Outlined.WarningAmber, null, tint = Amber, modifier = Modifier.size(19.dp)); Spacer(Modifier.width(9.dp)); Column { Text(localized("SAFETY LIMIT", "حدود السلامة", "GÜVENLİK SINIRI", "LIMITE DE SÉCURITÉ", "LÍMITE DE SEGURIDAD", "SICHERHEITSGRENZE", "LIMITE DI SICUREZZA"), fontSize = 9.sp, color = Amber, fontWeight = FontWeight.Black); Text(stringResource(R.string.safety_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
         }
     }
 }
@@ -809,7 +950,7 @@ private fun ScreenHeader(title: String, code: String, modifier: Modifier = Modif
 private fun BackHeader(title: String, onBack: () -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(R.string.back), tint = RoyalGold) }
-        Spacer(Modifier.width(4.dp)); Column(Modifier.weight(1f)) { Text("FOOD INTELLIGENCE RECORD", fontSize = 9.sp, color = ElectricCyan, fontWeight = FontWeight.Black); Text(title, fontWeight = FontWeight.Black, fontSize = 20.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
+        Spacer(Modifier.width(4.dp)); Column(Modifier.weight(1f)) { Text(localized("FOOD INTELLIGENCE RECORD", "سجل معلومات الغذاء", "GIDA BİLGİ KAYDI", "FICHE INTELLIGENCE ALIMENTAIRE", "REGISTRO DE INFORMACIÓN ALIMENTARIA", "LEBENSMITTEL-INFORMATIONSAKTE", "SCHEDA INFORMAZIONI ALIMENTARI"), fontSize = 9.sp, color = ElectricCyan, fontWeight = FontWeight.Black); Text(title, fontWeight = FontWeight.Black, fontSize = 20.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
     }
 }
 
