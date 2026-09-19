@@ -253,9 +253,9 @@ private fun EnterpriseHome(
     ) {
         item { EnterpriseHeader() }
         item {
-            ScreenHeader(
+            Text(
                 localized("Main menu", "القائمة الرئيسية", "Ana menü", "Menu principal", "Menú principal", "Hauptmenü", "Menu principale"),
-                "NEXVARY / FOODGUARD"
+                color = RoyalGold, fontSize = 12.sp, fontWeight = FontWeight.Black, letterSpacing = 1.2.sp
             )
         }
         item {
@@ -323,10 +323,19 @@ private fun EnterpriseMenuRow(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.width(3.dp).height(76.dp).background(accent))
             Box(
-                Modifier.padding(start = 13.dp).size(42.dp).border(1.dp, accent.copy(alpha = 0.42f), RoundedCornerShape(6.dp)),
+                Modifier
+                    .padding(start = 13.dp)
+                    .size(48.dp)
+                    .background(Brush.radialGradient(listOf(accent.copy(alpha = 0.20f), Color(0xFF06111A))), RoundedCornerShape(10.dp))
+                    .border(1.dp, GlowSilver.copy(alpha = 0.28f), RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(icon, null, tint = accent, modifier = Modifier.size(23.dp))
+                Box(
+                    Modifier.size(36.dp).border(1.dp, accent.copy(alpha = 0.72f), RoundedCornerShape(8.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(icon, null, tint = accent, modifier = Modifier.size(24.dp))
+                }
             }
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f).padding(vertical = 12.dp)) {
@@ -341,22 +350,51 @@ private fun EnterpriseMenuRow(
 
 @Composable
 private fun EnterpriseHeader() {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Box(
-            Modifier.size(44.dp).border(1.dp, RoyalGold.copy(alpha = 0.72f), RoundedCornerShape(5.dp)),
-            contentAlignment = Alignment.Center
+    Surface(
+        Modifier.fillMaxWidth(),
+        RoundedCornerShape(10.dp),
+        Color(0xFF02070D),
+        border = BorderStroke(1.dp, ElectricBlue.copy(alpha = 0.30f))
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 13.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.Outlined.HealthAndSafety, null, tint = RoyalGold, modifier = Modifier.size(25.dp))
+            NexvaryBrandMark(Modifier.size(66.dp))
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f)) {
+                Text("NEXVARY", color = GlowSilver, fontSize = 21.sp, fontWeight = FontWeight.Black, letterSpacing = 3.sp)
+                Text("FoodGuard", color = ElectricBlue, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    localized(
+                        "Know your food before you eat it", "اعرف طعامك قبل أن تأكله", "Yemeden önce gıdanı tanı",
+                        "Connaissez vos aliments avant de les manger", "Conoce tus alimentos antes de comerlos",
+                        "Kenne dein Essen, bevor du es isst", "Conosci il tuo cibo prima di mangiarlo"
+                    ),
+                    color = GlowSilver.copy(alpha = 0.82f), fontSize = 11.sp
+                )
+            }
         }
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text("NEXVARY", fontWeight = FontWeight.Black, letterSpacing = 2.sp, fontSize = 12.sp, color = RoyalGold)
-            Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Black)
-            Text(stringResource(R.string.tagline), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
-        Column(horizontalAlignment = Alignment.End) {
-            Text("ENTERPRISE", fontSize = 10.sp, fontWeight = FontWeight.Black, color = ElectricCyan, letterSpacing = 1.4.sp)
-            Text("RC2 / LOCAL", fontSize = 10.sp, color = GlowSilver.copy(alpha = 0.62f))
+    }
+}
+
+@Composable
+private fun NexvaryBrandMark(modifier: Modifier = Modifier) {
+    Box(
+        modifier.border(1.dp, ElectricBlue.copy(alpha = 0.62f), CircleShape).padding(5.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Canvas(Modifier.fillMaxSize()) {
+            val w = size.width
+            val h = size.height
+            drawCircle(ElectricBlue.copy(alpha = 0.22f), radius = w * 0.47f, style = Stroke(width = 1.2f))
+            drawLine(GlowSilver, Offset(w*.22f,h*.25f), Offset(w*.22f,h*.74f), strokeWidth=w*.075f)
+            drawLine(GlowSilver, Offset(w*.22f,h*.25f), Offset(w*.50f,h*.67f), strokeWidth=w*.075f)
+            drawLine(GlowSilver, Offset(w*.50f,h*.67f), Offset(w*.78f,h*.25f), strokeWidth=w*.075f)
+            drawLine(GlowSilver, Offset(w*.78f,h*.25f), Offset(w*.78f,h*.74f), strokeWidth=w*.075f)
+            drawLine(ElectricBlue, Offset(w*.49f,h*.30f), Offset(w*.60f,h*.15f), strokeWidth=w*.085f)
+            drawCircle(ElectricBlue, radius=w*.035f, center=Offset(w*.50f,h*.84f))
         }
     }
 }
