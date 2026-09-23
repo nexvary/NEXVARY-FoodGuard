@@ -260,12 +260,6 @@ private fun EnterpriseHome(
     ) {
         item { EnterpriseHeader() }
         item {
-            Text(
-                localized("Main menu", "القائمة الرئيسية", "Ana menü", "Menu principal", "Menú principal", "Hauptmenü", "Menu principale"),
-                color = RoyalGold, fontSize = 12.sp, fontWeight = FontWeight.Black, letterSpacing = 1.2.sp
-            )
-        }
-        item {
             EnterpriseMenuRow(
                 Icons.Outlined.CenterFocusStrong,
                 localized("Inspect food", "فحص الطعام", "Gıdayı incele", "Inspecter un aliment", "Inspeccionar alimento", "Lebensmittel prüfen", "Ispeziona alimento"),
@@ -355,9 +349,9 @@ private fun EnterpriseMenuRow(
             }
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f).padding(vertical = 12.dp)) {
-                Text(title, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = GlowSilver)
                 Spacer(Modifier.height(2.dp))
-                Text(subtitle, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(subtitle, fontSize = 11.sp, color = GlowSilver.copy(alpha = 0.82f), maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
             Icon(Icons.AutoMirrored.Outlined.ChevronRight, null, tint = GlowSilver.copy(alpha = 0.52f), modifier = Modifier.padding(horizontal = 12.dp).size(20.dp))
         }
@@ -572,7 +566,7 @@ private fun EnterpriseAction(modifier: Modifier, icon: ImageVector, title: Strin
 
 @Composable
 private fun TelemetryStrip(foods: Int, highRisk: Int, references: Int, scans: Int) {
-    Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.14f))) {
+    Surface(Modifier.fillMaxWidth(), RoundedCornerShape(10.dp), EnterprisePanel, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.62f))) {
         Row(Modifier.padding(vertical = 10.dp)) {
             TelemetryCell(Modifier.weight(1f), foods.toString(), "FOODS", ElectricCyan)
             TelemetryDivider()
@@ -801,7 +795,7 @@ private fun EvidenceCard(food: FoodItem, ref: FoodReferenceImage) {
 
 @Composable
 private fun EvidenceSection(title: String, bullets: List<String>, accent: Color, icon: ImageVector) {
-    Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.14f))) {
+    Surface(Modifier.fillMaxWidth(), RoundedCornerShape(10.dp), EnterprisePanel, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.62f))) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(icon, null, tint = accent, modifier = Modifier.size(19.dp))
@@ -909,7 +903,7 @@ private fun SignalPanel(report: ImageSignalReport) {
 
 @Composable
 private fun SafetyChecklist(check: ManualSafetyCheck, onChange: (ManualSafetyCheck) -> Unit) {
-    Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.14f))) {
+    Surface(Modifier.fillMaxWidth(), RoundedCornerShape(10.dp), EnterprisePanel, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.62f))) {
         Column {
             CheckRow(localized("Visible mold", "عفن ظاهر", "Görünür küf", "Moisissure visible", "Moho visible", "Sichtbarer Schimmel", "Muffa visibile"), check.visibleMold) { onChange(check.copy(visibleMold = it)) }
             CheckRow(localized("Slime or sticky film", "طبقة لزجة أو مخاطية", "Yapışkan tabaka", "Film visqueux", "Capa viscosa", "Schleimige Schicht", "Patina viscida"), check.slimeOrStickyFilm) { onChange(check.copy(slimeOrStickyFilm = it)) }
@@ -934,11 +928,11 @@ private fun AssessmentPanel(assessment: SafetyAssessment, onShare: () -> Unit) {
     Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, accent.copy(alpha = 0.42f))) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("ASSESSMENT", fontSize = 9.sp, color = accent, fontWeight = FontWeight.Black); Spacer(Modifier.weight(1f)); IconButton(onClick = onShare, modifier = Modifier.size(32.dp)) { Icon(Icons.Outlined.Share, null, tint = GlowSilver) }
+                Text(localized("ASSESSMENT", "التقييم", "DEĞERLENDİRME", "ÉVALUATION", "EVALUACIÓN", "BEWERTUNG", "VALUTAZIONE"), fontSize = 9.sp, color = accent, fontWeight = FontWeight.Black); Spacer(Modifier.weight(1f)); IconButton(onClick = onShare, modifier = Modifier.size(32.dp)) { Icon(Icons.Outlined.Share, null, tint = GlowSilver) }
             }
             Text(verdictLabel(assessment.verdict), fontSize = 21.sp, fontWeight = FontWeight.Black, color = accent)
-            Text("${assessment.redFlagCount} RED FLAGS   •   ${assessment.uncertaintyCount} UNCERTAINTY", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            assessment.reasons.forEach { Text("• $it", color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            Text("${assessment.redFlagCount} ${localized("RED FLAGS", "علامات خطر", "RİSK İŞARETİ", "SIGNAUX D’ALERTE", "SEÑALES DE ALERTA", "WARNZEICHEN", "SEGNALI DI RISCHIO")}   •   ${assessment.uncertaintyCount} ${localized("UNCERTAINTY", "عوامل غير مؤكدة", "BELİRSİZLİK", "INCERTITUDE", "INCERTIDUMBRE", "UNSICHERHEIT", "INCERTEZZA")}", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = GlowSilver.copy(alpha = 0.82f))
+            assessment.reasons.forEach { Text("• ${localizedAssessmentReason(it)}", color = GlowSilver.copy(alpha = 0.88f)) }
         }
     }
 }
@@ -983,11 +977,11 @@ private fun HistoryRow(record: ScanRecord, onClick: () -> Unit) {
 
 @Composable
 private fun EnterpriseSettings(modifier: Modifier, themeMode: EnterpriseTheme, onThemeMode: (EnterpriseTheme) -> Unit) {
-    LazyColumn(modifier.fillMaxSize(), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    LazyColumn(modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 18.dp, vertical = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         item { ScreenHeader(stringResource(R.string.settings), "NEXVARY / FOODGUARD") }
         item { SectionHeader(localized("Appearance", "المظهر", "Görünüm", "Apparence", "Apariencia", "Darstellung", "Aspetto"), "DISPLAY") }
         item {
-            Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.14f))) {
+            Surface(Modifier.fillMaxWidth(), RoundedCornerShape(10.dp), EnterprisePanel, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.62f))) {
                 Column {
                     ThemeRow(Icons.Outlined.LightMode, localized("Light", "فاتح", "Açık", "Clair", "Claro", "Hell", "Chiaro"), themeMode == EnterpriseTheme.LIGHT) { onThemeMode(EnterpriseTheme.LIGHT) }
                     ThemeRow(Icons.Outlined.DarkMode, localized("Dark", "داكن", "Koyu", "Sombre", "Oscuro", "Dunkel", "Scuro"), themeMode == EnterpriseTheme.DARK) { onThemeMode(EnterpriseTheme.DARK) }
@@ -997,7 +991,7 @@ private fun EnterpriseSettings(modifier: Modifier, themeMode: EnterpriseTheme, o
         }
         item { SectionHeader(localized("Product integrity", "نزاهة المنتج", "Ürün bütünlüğü", "Intégrité du produit", "Integridad del producto", "Produktintegrität", "Integrità prodotto"), "ENGINEERING") }
         item {
-            Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, ElectricCyan.copy(alpha = 0.20f))) {
+            Surface(Modifier.fillMaxWidth(), RoundedCornerShape(10.dp), EnterprisePanel, border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.62f))) {
                 Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     SettingsLine(Icons.Outlined.HealthAndSafety, localized("Offline-first inspection", "فحص محلي أولاً", "Çevrimdışı öncelikli", "Inspection hors ligne", "Inspección local", "Offline-Prüfung", "Ispezione offline"), Fresh)
                     SettingsLine(Icons.Outlined.Info, localized("Open-source benchmark documented", "مرجع المصادر المفتوحة موثق", "Açık kaynak kıyaslaması belgeli", "Benchmark open source documenté", "Benchmark open source documentado", "Open-Source-Benchmark dokumentiert", "Benchmark open source documentato"), ElectricCyan)
@@ -1181,6 +1175,18 @@ private fun referenceStateLabel(state: FoodReferenceState): String = when (state
     FoodReferenceState.RIPE -> localized("Ripe", "ناضج", "Olgun", "Mûr", "Maduro", "Reif", "Maturo")
     FoodReferenceState.OVERRIPE -> localized("Overripe", "مفرط النضج", "Aşırı olgun", "Trop mûr", "Muy maduro", "Überreif", "Troppo maturo")
     FoodReferenceState.SPOILAGE -> localized("Spoilage", "تلف", "Bozulma", "Altération", "Deterioro", "Verderb", "Deterioramento")
+}
+
+private fun localizedAssessmentReason(reason: String): String {
+    val r = reason.trim().removePrefix("•").trim().lowercase(Locale.ROOT)
+    return when {
+        "storage history" in r && ("unknown" in r || "not known" in r) -> localized("Storage history is unknown", "تاريخ التخزين غير معروف", "Saklama geçmişi bilinmiyor", "Historique de stockage inconnu", "Historial de almacenamiento desconocido", "Lagerungsverlauf unbekannt", "Cronologia di conservazione sconosciuta")
+        "slimy" in r || "sticky" in r -> localized("Slimy or sticky surface reported", "تم الإبلاغ عن سطح لزج أو مخاطي", "Yapışkan yüzey bildirildi", "Surface visqueuse signalée", "Superficie viscosa indicada", "Schleimige oder klebrige Oberfläche gemeldet", "Superficie viscida segnalata")
+        "odor" in r || "smell" in r || "ferment" in r -> localized("Abnormal odor or fermentation reported", "تم الإبلاغ عن رائحة غير طبيعية أو تخمر", "Anormal koku veya fermantasyon bildirildi", "Odeur anormale ou fermentation signalée", "Olor anormal o fermentación indicada", "Ungewöhnlicher Geruch oder Gärung gemeldet", "Odore anomalo o fermentazione segnalata")
+        "swollen" in r || "leak" in r || "package" in r -> localized("Package swelling or leakage reported", "تم الإبلاغ عن انتفاخ العبوة أو تسربها", "Ambalaj şişmesi veya sızıntı bildirildi", "Gonflement ou fuite de l’emballage signalé", "Hinchazón o fuga del envase indicada", "Aufgeblähte oder undichte Verpackung gemeldet", "Gonfiore o perdita della confezione segnalati")
+        "temperature" in r || "unsafe time" in r -> localized("Unsafe storage time or temperature reported", "تم الإبلاغ عن وقت أو حرارة تخزين غير آمنة", "Güvensiz saklama süresi veya sıcaklığı bildirildi", "Durée ou température de stockage à risque signalée", "Tiempo o temperatura de almacenamiento inseguro indicado", "Unsichere Lagerzeit oder -temperatur gemeldet", "Tempo o temperatura di conservazione non sicuri segnalati")
+        else -> reason
+    }
 }
 
 private fun shareAssessment(context: Context, food: FoodItem?, assessment: SafetyAssessment) {
