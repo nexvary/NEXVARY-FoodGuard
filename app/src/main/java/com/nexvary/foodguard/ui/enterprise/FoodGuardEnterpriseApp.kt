@@ -376,7 +376,7 @@ private fun EnterpriseHeader() {
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 13.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            NexvaryBrandMark(Modifier.size(66.dp))
+            NexvaryBrandMark(Modifier.size(76.dp))
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text("NEXVARY", color = GlowSilver, fontSize = 21.sp, fontWeight = FontWeight.Black, letterSpacing = 3.sp)
@@ -398,19 +398,31 @@ private fun EnterpriseHeader() {
 @Composable
 private fun NexvaryBrandMark(modifier: Modifier = Modifier) {
     Box(
-        modifier.border(1.dp, ElectricBlue.copy(alpha = 0.62f), CircleShape).padding(5.dp),
+        modifier
+            .background(Brush.radialGradient(listOf(ElectricBlue.copy(alpha = 0.18f), Color.Black)), CircleShape)
+            .border(1.dp, GlowSilver.copy(alpha = 0.55f), CircleShape)
+            .padding(5.dp),
         contentAlignment = Alignment.Center
     ) {
         Canvas(Modifier.fillMaxSize()) {
-            val w = size.width
-            val h = size.height
-            drawCircle(ElectricBlue.copy(alpha = 0.22f), radius = w * 0.47f, style = Stroke(width = 1.2f))
-            drawLine(GlowSilver, Offset(w*.22f,h*.25f), Offset(w*.22f,h*.74f), strokeWidth=w*.075f)
-            drawLine(GlowSilver, Offset(w*.22f,h*.25f), Offset(w*.50f,h*.67f), strokeWidth=w*.075f)
-            drawLine(GlowSilver, Offset(w*.50f,h*.67f), Offset(w*.78f,h*.25f), strokeWidth=w*.075f)
-            drawLine(GlowSilver, Offset(w*.78f,h*.25f), Offset(w*.78f,h*.74f), strokeWidth=w*.075f)
-            drawLine(ElectricBlue, Offset(w*.49f,h*.30f), Offset(w*.60f,h*.15f), strokeWidth=w*.085f)
-            drawCircle(ElectricBlue, radius=w*.035f, center=Offset(w*.50f,h*.84f))
+            val w = size.width; val h = size.height
+            drawCircle(ElectricBlue.copy(alpha = 0.42f), w * .47f, style = Stroke(w * .018f))
+            drawCircle(GlowSilver.copy(alpha = 0.28f), w * .39f, style = Stroke(w * .012f))
+            // NEXVARY monogram: metallic N + crossing blue/silver blade.
+            drawLine(GlowSilver, Offset(w*.24f,h*.72f), Offset(w*.24f,h*.30f), strokeWidth=w*.085f)
+            drawLine(GlowSilver, Offset(w*.24f,h*.30f), Offset(w*.70f,h*.72f), strokeWidth=w*.085f)
+            drawLine(GlowSilver, Offset(w*.70f,h*.72f), Offset(w*.70f,h*.30f), strokeWidth=w*.085f)
+            drawLine(ElectricBlue, Offset(w*.34f,h*.72f), Offset(w*.68f,h*.23f), strokeWidth=w*.072f)
+            drawLine(GlowSilver.copy(alpha=.88f), Offset(w*.44f,h*.70f), Offset(w*.78f,h*.28f), strokeWidth=w*.045f)
+            // Lock crown from the official identity.
+            drawRect(ElectricBlue, topLeft=Offset(w*.45f,h*.10f), size=androidx.compose.ui.geometry.Size(w*.12f,h*.10f), style=Stroke(w*.022f))
+            drawArc(GlowSilver, 190f, 160f, false, topLeft=Offset(w*.455f,h*.035f), size=androidx.compose.ui.geometry.Size(w*.11f,h*.12f), style=Stroke(w*.022f))
+            drawCircle(ElectricBlue, w*.022f, Offset(w*.51f,h*.15f))
+            // Circuit terminals.
+            listOf(.22f,.50f,.78f).forEach { y ->
+                drawLine(ElectricBlue.copy(alpha=.65f), Offset(w*.03f,h*y), Offset(w*.14f,h*y), strokeWidth=w*.012f)
+                drawLine(ElectricBlue.copy(alpha=.65f), Offset(w*.86f,h*y), Offset(w*.97f,h*y), strokeWidth=w*.012f)
+            }
         }
     }
 }
