@@ -123,7 +123,7 @@ jobs:
 
           set_app_locale "en-US"
           wait_for_ui "NEXVARY" enterprise-home-en.xml
-          grep -Fq "Main menu" enterprise-home-en.xml
+          if grep -Fq "Main menu" enterprise-home-en.xml; then echo "Obsolete Main menu heading still present" >&2; exit 1; fi
           grep -Fq "Inspect food" enterprise-home-en.xml
           grep -Fq "About" enterprise-home-en.xml
           adb exec-out screencap -p > enterprise-home-en.png
@@ -131,7 +131,7 @@ jobs:
 
           set_app_locale "ar-EG"
           wait_for_ui "NEXVARY" enterprise-home-ar.xml
-          if ! grep -Eq "القائمة الرئيسية|فحص الطعام|دليل الأغذية|سجل الفحوصات|عنا" enterprise-home-ar.xml; then
+          if ! grep -Eq "فحص الطعام|دليل الأغذية|سجل الفحوصات|عنا" enterprise-home-ar.xml; then
             echo "Arabic locale did not render Arabic enterprise content" >&2
             cat enterprise-home-ar.xml
             exit 1
