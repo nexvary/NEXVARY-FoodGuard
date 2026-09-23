@@ -611,7 +611,7 @@ private fun SectionHeader(title: String, code: String) {
             Spacer(Modifier.weight(1f))
             Box(Modifier.width(42.dp).height(1.dp).background(ElectricCyan.copy(alpha = 0.42f)))
         }
-        Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Black)
+        Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Black, color = GlowSilver)
     }
 }
 
@@ -977,7 +977,7 @@ private fun HistoryRow(record: ScanRecord, onClick: () -> Unit) {
 
 @Composable
 private fun EnterpriseSettings(modifier: Modifier, themeMode: EnterpriseTheme, onThemeMode: (EnterpriseTheme) -> Unit) {
-    LazyColumn(modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 18.dp, vertical = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    LazyColumn(modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 18.dp, vertical = 6.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
         item { ScreenHeader(stringResource(R.string.settings), "NEXVARY / FOODGUARD") }
         item { SectionHeader(localized("Appearance", "المظهر", "Görünüm", "Apparence", "Apariencia", "Darstellung", "Aspetto"), "DISPLAY") }
         item {
@@ -1077,28 +1077,28 @@ private fun openExternal(context: Context, uri: String) {
 
 @Composable
 private fun ThemeRow(icon: ImageVector, label: String, selected: Boolean, onClick: () -> Unit) {
-    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, null, tint = if (selected) RoyalGold else GlowSilver.copy(alpha = 0.64f), modifier = Modifier.size(20.dp)); Spacer(Modifier.width(10.dp)); Text(label, Modifier.weight(1f), fontWeight = FontWeight.SemiBold); if (selected) Text("ACTIVE", fontSize = 9.sp, color = RoyalGold, fontWeight = FontWeight.Black)
+    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 13.dp, vertical = 9.dp), verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, null, tint = if (selected) RoyalGold else GlowSilver.copy(alpha = 0.64f), modifier = Modifier.size(20.dp)); Spacer(Modifier.width(10.dp)); Text(label, Modifier.weight(1f), fontWeight = FontWeight.SemiBold, color = GlowSilver); if (selected) Text(localized("ACTIVE", "نشط", "AKTİF", "ACTIF", "ACTIVO", "AKTIV", "ATTIVO"), fontSize = 9.sp, color = RoyalGold, fontWeight = FontWeight.Black)
     }
 }
 
 @Composable
 private fun SettingsLine(icon: ImageVector, text: String, accent: Color) {
-    Row(verticalAlignment = Alignment.CenterVertically) { Icon(icon, null, tint = accent, modifier = Modifier.size(19.dp)); Spacer(Modifier.width(9.dp)); Text(text, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f)) }
+    Row(verticalAlignment = Alignment.CenterVertically) { Icon(icon, null, tint = accent, modifier = Modifier.size(19.dp)); Spacer(Modifier.width(9.dp)); Text(text, color = GlowSilver.copy(alpha = 0.90f), modifier = Modifier.weight(1f)) }
 }
 
 @Composable
 private fun SafetyNotice() {
     Surface(Modifier.fillMaxWidth(), RoundedCornerShape(6.dp), MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, Amber.copy(alpha = 0.28f))) {
         Row(Modifier.padding(13.dp), verticalAlignment = Alignment.Top) {
-            Icon(Icons.Outlined.WarningAmber, null, tint = Amber, modifier = Modifier.size(19.dp)); Spacer(Modifier.width(9.dp)); Column { Text(localized("SAFETY LIMIT", "حدود السلامة", "GÜVENLİK SINIRI", "LIMITE DE SÉCURITÉ", "LÍMITE DE SEGURIDAD", "SICHERHEITSGRENZE", "LIMITE DI SICUREZZA"), fontSize = 9.sp, color = Amber, fontWeight = FontWeight.Black); Text(stringResource(R.string.safety_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            Icon(Icons.Outlined.WarningAmber, null, tint = Amber, modifier = Modifier.size(19.dp)); Spacer(Modifier.width(9.dp)); Column { Text(localized("SAFETY LIMIT", "حدود السلامة", "GÜVENLİK SINIRI", "LIMITE DE SÉCURITÉ", "LÍMITE DE SEGURIDAD", "SICHERHEITSGRENZE", "LIMITE DI SICUREZZA"), fontSize = 9.sp, color = Amber, fontWeight = FontWeight.Black); Text(stringResource(R.string.safety_note), style = MaterialTheme.typography.bodySmall, color = GlowSilver.copy(alpha = 0.88f)) }
         }
     }
 }
 
 @Composable
 private fun ScreenHeader(title: String, code: String, modifier: Modifier = Modifier) {
-    Column(modifier, verticalArrangement = Arrangement.spacedBy(3.dp)) { Text(code, fontSize = 9.sp, color = ElectricCyan, fontWeight = FontWeight.Black, letterSpacing = 1.1.sp); Text(title, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Black) }
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(2.dp)) { Text(code, fontSize = 9.sp, color = ElectricCyan, fontWeight = FontWeight.Black, letterSpacing = 1.1.sp); Text(title, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Black, color = GlowSilver) }
 }
 
 @Composable
@@ -1185,6 +1185,9 @@ private fun localizedAssessmentReason(reason: String): String {
         "odor" in r || "smell" in r || "ferment" in r -> localized("Abnormal odor or fermentation reported", "تم الإبلاغ عن رائحة غير طبيعية أو تخمر", "Anormal koku veya fermantasyon bildirildi", "Odeur anormale ou fermentation signalée", "Olor anormal o fermentación indicada", "Ungewöhnlicher Geruch oder Gärung gemeldet", "Odore anomalo o fermentazione segnalata")
         "swollen" in r || "leak" in r || "package" in r -> localized("Package swelling or leakage reported", "تم الإبلاغ عن انتفاخ العبوة أو تسربها", "Ambalaj şişmesi veya sızıntı bildirildi", "Gonflement ou fuite de l’emballage signalé", "Hinchazón o fuga del envase indicada", "Aufgeblähte oder undichte Verpackung gemeldet", "Gonfiore o perdita della confezione segnalati")
         "temperature" in r || "unsafe time" in r -> localized("Unsafe storage time or temperature reported", "تم الإبلاغ عن وقت أو حرارة تخزين غير آمنة", "Güvensiz saklama süresi veya sıcaklığı bildirildi", "Durée ou température de stockage à risque signalée", "Tiempo o temperatura de almacenamiento inseguro indicado", "Unsichere Lagerzeit oder -temperatur gemeldet", "Tempo o temperatura di conservazione non sicuri segnalati")
+        "no red flags" in r -> localized("No red flags were reported in the manual checklist.", "لم يتم الإبلاغ عن علامات خطر في قائمة الفحص اليدوي.", "Manuel kontrol listesinde risk işareti bildirilmedi.", "Aucun signal d’alerte n’a été signalé dans la liste manuelle.", "No se informaron señales de alerta en la lista manual.", "In der manuellen Checkliste wurden keine Warnzeichen gemeldet.", "Nessun segnale di rischio è stato segnalato nella lista manuale.")
+        "does not prove microbiological safety" in r || "not proof of microbiological safety" in r -> localized("This does not prove microbiological safety.", "هذا لا يثبت السلامة الميكروبيولوجية.", "Bu, mikrobiyolojik güvenliği kanıtlamaz.", "Cela ne prouve pas la sécurité microbiologique.", "Esto no demuestra la seguridad microbiológica.", "Dies beweist keine mikrobiologische Sicherheit.", "Questo non dimostra la sicurezza microbiologica.")
+        "visible mold" in r -> localized("Visible mold is present.", "يوجد عفن ظاهر.", "Görünür küf mevcut.", "Moisissure visible présente.", "Hay moho visible.", "Sichtbarer Schimmel ist vorhanden.", "È presente muffa visibile.")
         else -> reason
     }
 }
