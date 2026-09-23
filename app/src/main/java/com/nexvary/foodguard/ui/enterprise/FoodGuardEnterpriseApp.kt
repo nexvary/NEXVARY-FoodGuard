@@ -135,7 +135,7 @@ private val EnterprisePanel = Color(0xFF04101A)
 private val EnterprisePanelRaised = Color(0xFF071A28)
 private val EnterpriseGoldDeep = Color(0xFF7A5B12)
 
-private enum class EnterpriseScreen { HOME, CATALOG, SCANNER, HISTORY, SETTINGS, ABOUT, DETAIL }
+private enum class EnterpriseScreen { HOME, CATALOG, SCANNER, HISTORY, SETTINGS, EMERGENCY, ABOUT, DETAIL }
 private enum class EnterpriseTheme { SYSTEM, LIGHT, DARK }
 
 @Composable
@@ -188,12 +188,14 @@ private fun EnterpriseRoot(themeMode: EnterpriseTheme, onThemeMode: (EnterpriseT
                 onCatalog = { screen = EnterpriseScreen.CATALOG },
                 onHistory = { screen = EnterpriseScreen.HISTORY },
                 onSettings = { screen = EnterpriseScreen.SETTINGS },
+                onEmergency = { screen = EnterpriseScreen.EMERGENCY },
                 onAbout = { screen = EnterpriseScreen.ABOUT }
             )
             EnterpriseScreen.CATALOG -> EnterpriseCatalog(Modifier.padding(padding), ::openFood)
             EnterpriseScreen.SCANNER -> EnterpriseScanner(Modifier.padding(padding))
             EnterpriseScreen.HISTORY -> EnterpriseHistory(Modifier.padding(padding), ::openFood)
             EnterpriseScreen.SETTINGS -> EnterpriseSettings(Modifier.padding(padding), themeMode, onThemeMode)
+            EnterpriseScreen.EMERGENCY -> EnterpriseEmergency(Modifier.padding(padding)) { screen = EnterpriseScreen.HOME }
             EnterpriseScreen.ABOUT -> EnterpriseAbout(Modifier.padding(padding)) { screen = EnterpriseScreen.HOME }
             EnterpriseScreen.DETAIL -> EnterpriseDetail(
                 Modifier.padding(padding),
@@ -222,11 +224,11 @@ private fun EnterpriseNav(screen: EnterpriseScreen, onNavigate: (EnterpriseScree
                 selected = selected,
                 onClick = { onNavigate(target) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = RoyalGold,
-                    selectedTextColor = RoyalGold,
+                    selectedIconColor = when (target) { EnterpriseScreen.HOME -> RoyalGold; EnterpriseScreen.CATALOG -> ElectricCyan; EnterpriseScreen.SCANNER -> Fresh; EnterpriseScreen.HISTORY -> GlowSilver; else -> ElectricBlue },
+                    selectedTextColor = when (target) { EnterpriseScreen.HOME -> RoyalGold; EnterpriseScreen.CATALOG -> ElectricCyan; EnterpriseScreen.SCANNER -> Fresh; EnterpriseScreen.HISTORY -> GlowSilver; else -> ElectricBlue },
                     indicatorColor = Color.Transparent,
-                    unselectedIconColor = GlowSilver.copy(alpha = 0.58f),
-                    unselectedTextColor = GlowSilver.copy(alpha = 0.58f)
+                    unselectedIconColor = when (target) { EnterpriseScreen.HOME -> RoyalGold; EnterpriseScreen.CATALOG -> ElectricCyan; EnterpriseScreen.SCANNER -> Fresh; EnterpriseScreen.HISTORY -> GlowSilver; else -> ElectricBlue }.copy(alpha = 0.58f),
+                    unselectedTextColor = GlowSilver.copy(alpha = 0.68f)
                 ),
                 icon = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -248,12 +250,13 @@ private fun EnterpriseHome(
     onCatalog: () -> Unit,
     onHistory: () -> Unit,
     onSettings: () -> Unit,
+    onEmergency: () -> Unit,
     onAbout: () -> Unit
 ) {
     LazyColumn(
         modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 18.dp, vertical = 14.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item { EnterpriseHeader() }
         item {
@@ -300,6 +303,15 @@ private fun EnterpriseHome(
         }
         item {
             EnterpriseMenuRow(
+                Icons.Outlined.HealthAndSafety,
+                localized("Emergency first aid", "الطوارئ والإسعافات الأولية", "Acil ilk yardım", "Premiers secours", "Primeros auxilios", "Erste Hilfe", "Primo soccorso"),
+                localized("Foodborne illness • warning signs • what to do now", "التسمم الغذائي • علامات الخطر • ماذا تفعل الآن", "Gıda zehirlenmesi • uyarı işaretleri", "Intoxication alimentaire • signes d’alerte", "Intoxicación alimentaria • señales de alarma", "Lebensmittelvergiftung • Warnzeichen", "Intossicazione alimentare • segnali d’allarme"),
+                Danger,
+                onEmergency
+            )
+        }
+        item {
+            EnterpriseMenuRow(
                 Icons.Outlined.Info,
                 localized("About", "عنا", "Hakkında", "À propos", "Acerca de", "Über", "Informazioni"),
                 localized("NEXVARY links and product information", "روابط NEXVARY ومعلومات التطبيق", "NEXVARY bağlantıları ve ürün bilgisi", "Liens NEXVARY et informations produit", "Enlaces NEXVARY e información", "NEXVARY-Links und Produktinfos", "Link NEXVARY e informazioni"),
@@ -320,12 +332,12 @@ private fun EnterpriseMenuRow(
 ) {
     Surface(
         Modifier.fillMaxWidth().clickable(onClick = onClick),
-        RoundedCornerShape(7.dp),
-        MaterialTheme.colorScheme.surface,
-        border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.14f))
+        RoundedCornerShape(9.dp),
+        EnterprisePanel,
+        border = BorderStroke(1.dp, GlowSilver.copy(alpha = 0.34f))
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.width(3.dp).height(76.dp).background(accent))
+        Row(Modifier.background(Brush.linearGradient(listOf(Color(0xFF0A1822), Color(0xFF07111A), GlowSilver.copy(alpha = 0.06f)))), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.width(4.dp).height(76.dp).background(accent))
             Box(
                 Modifier
                     .padding(start = 13.dp)
@@ -399,6 +411,101 @@ private fun NexvaryBrandMark(modifier: Modifier = Modifier) {
             drawLine(GlowSilver, Offset(w*.78f,h*.25f), Offset(w*.78f,h*.74f), strokeWidth=w*.075f)
             drawLine(ElectricBlue, Offset(w*.49f,h*.30f), Offset(w*.60f,h*.15f), strokeWidth=w*.085f)
             drawCircle(ElectricBlue, radius=w*.035f, center=Offset(w*.50f,h*.84f))
+        }
+    }
+}
+
+@Composable
+private fun EnterpriseEmergency(modifier: Modifier, onBack: () -> Unit) {
+    LazyColumn(
+        modifier.fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, localized("Back", "رجوع", "Geri", "Retour", "Volver", "Zurück", "Indietro"), tint = GlowSilver) }
+                Column(Modifier.weight(1f)) {
+                    Text(localized("EMERGENCY", "الطوارئ", "ACİL", "URGENCE", "EMERGENCIA", "NOTFALL", "EMERGENZA"), color = Danger, fontSize = 11.sp, fontWeight = FontWeight.Black, letterSpacing = 1.6.sp)
+                    Text(localized("Food poisoning first aid", "إسعافات أولية للتسمم الغذائي", "Gıda zehirlenmesi ilk yardımı", "Premiers secours alimentaires", "Primeros auxilios alimentarios", "Erste Hilfe bei Lebensmittelvergiftung", "Primo soccorso alimentare"), fontSize = 22.sp, fontWeight = FontWeight.Black)
+                }
+                Icon(Icons.Outlined.HealthAndSafety, null, tint = Danger, modifier = Modifier.size(34.dp))
+            }
+        }
+        item {
+            EmergencyPanel(
+                localized("What to do now", "ماذا تفعل الآن", "Şimdi ne yapmalı", "Que faire maintenant", "Qué hacer ahora", "Was jetzt zu tun ist", "Cosa fare ora"),
+                localized(
+                    "Rest and replace lost fluids. Take small, frequent sips if nausea or vomiting makes drinking difficult. Oral rehydration solution can help replace water and salts lost through vomiting or diarrhea.",
+                    "استرح وعوّض السوائل المفقودة. تناول رشفات صغيرة ومتكررة إذا كان الغثيان أو القيء يجعل الشرب صعبًا. يمكن لمحلول الإماهة الفموي أن يساعد في تعويض الماء والأملاح المفقودة بسبب القيء أو الإسهال.",
+                    "Dinlenin ve kaybedilen sıvıyı yerine koyun. Bulantı varsa küçük ve sık yudumlar alın.",
+                    "Reposez-vous et remplacez les liquides perdus. Prenez de petites gorgées fréquentes.",
+                    "Descanse y reponga líquidos. Tome sorbos pequeños y frecuentes.",
+                    "Ruhen Sie sich aus und ersetzen Sie verlorene Flüssigkeit. Trinken Sie kleine, häufige Schlucke.",
+                    "Riposa e reintegra i liquidi persi. Bevi piccoli sorsi frequenti."
+                ),
+                ElectricCyan
+            )
+        }
+        item {
+            EmergencyPanel(
+                localized("Seek urgent medical help", "اطلب مساعدة طبية عاجلة", "Acil tıbbi yardım alın", "Consultez en urgence", "Busque ayuda médica urgente", "Dringend medizinische Hilfe suchen", "Richiedi assistenza medica urgente"),
+                localized(
+                    "Get urgent medical care for bloody diarrhea, frequent vomiting that prevents keeping fluids down, severe dehydration, confusion, severe breathing difficulty, severe abdominal pain, or a high fever. Pregnant people, young children, older adults and people with weakened immunity need a lower threshold for medical advice.",
+                    "اطلب رعاية طبية عاجلة عند وجود إسهال دموي، قيء متكرر يمنع الاحتفاظ بالسوائل، جفاف شديد، ارتباك، صعوبة شديدة في التنفس، ألم بطني شديد أو حمى مرتفعة. الحوامل والأطفال الصغار وكبار السن وضعاف المناعة يحتاجون إلى تقييم طبي مبكر.",
+                    "Kanlı ishal, sıvı tutamama, ciddi susuzluk, bilinç değişikliği veya ciddi nefes darlığında acil yardım alın.",
+                    "Consultez en urgence en cas de diarrhée sanglante, vomissements répétés, déshydratation sévère, confusion ou difficulté respiratoire.",
+                    "Busque atención urgente ante diarrea con sangre, vómitos repetidos, deshidratación grave, confusión o dificultad respiratoria.",
+                    "Bei blutigem Durchfall, anhaltendem Erbrechen, schwerer Austrocknung, Verwirrtheit oder Atemnot dringend Hilfe suchen.",
+                    "Richiedi assistenza urgente per diarrea con sangue, vomito ripetuto, grave disidratazione, confusione o difficoltà respiratoria."
+                ),
+                Danger
+            )
+        }
+        item {
+            EmergencyPanel(
+                localized("Possible chemical or toxic ingestion", "اشتباه ابتلاع مادة سامة أو كيميائية", "Kimyasal veya toksik madde şüphesi", "Ingestion toxique possible", "Posible ingestión tóxica", "Mögliche Giftaufnahme", "Possibile ingestione tossica"),
+                localized(
+                    "Do not induce vomiting. Do not give food or drink unless a medical professional or poison service tells you to. Keep the package or container and seek emergency medical advice immediately.",
+                    "لا تحاول إحداث القيء. لا تعطِ طعامًا أو شرابًا إلا إذا أوصى مختص طبي أو مركز السموم بذلك. احتفظ بالعبوة أو الحاوية واطلب المساعدة الطبية العاجلة فورًا.",
+                    "Kusturmaya çalışmayın; tıbbi talimat olmadan yiyecek veya içecek vermeyin.",
+                    "Ne provoquez pas de vomissements et ne donnez rien à manger ou boire sans avis médical.",
+                    "No provoque el vómito ni dé comida o bebida sin indicación médica.",
+                    "Kein Erbrechen auslösen und ohne medizinische Anweisung nichts zu essen oder trinken geben.",
+                    "Non provocare il vomito e non somministrare cibo o bevande senza indicazione medica."
+                ),
+                Amber
+            )
+        }
+        item {
+            Text(
+                localized(
+                    "This guide is first-aid information, not a diagnosis. Food photos cannot establish microbiological safety or determine the cause of illness.",
+                    "هذا الدليل معلومات إسعافات أولية وليس تشخيصًا. صور الطعام لا تثبت السلامة الميكروبيولوجية ولا تحدد سبب المرض.",
+                    "Bu rehber tanı değildir.", "Ce guide ne remplace pas un diagnostic.", "Esta guía no sustituye un diagnóstico.", "Dieser Leitfaden ist keine Diagnose.", "Questa guida non è una diagnosi."
+                ),
+                color = GlowSilver.copy(alpha = 0.72f), fontSize = 11.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmergencyPanel(title: String, body: String, accent: Color) {
+    Surface(
+        Modifier.fillMaxWidth(),
+        RoundedCornerShape(10.dp),
+        EnterprisePanel,
+        border = BorderStroke(1.dp, accent.copy(alpha = 0.55f))
+    ) {
+        Row(Modifier.background(Brush.linearGradient(listOf(Color(0xFF0A1822), Color(0xFF061019), GlowSilver.copy(alpha = 0.06f)))).padding(15.dp)) {
+            Box(Modifier.width(4.dp).height(56.dp).background(accent))
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(title, color = accent, fontWeight = FontWeight.Black, fontSize = 15.sp)
+                Spacer(Modifier.height(6.dp))
+                Text(body, color = GlowSilver, fontSize = 13.sp)
+            }
         }
     }
 }
