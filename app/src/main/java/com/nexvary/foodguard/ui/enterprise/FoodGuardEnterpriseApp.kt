@@ -918,7 +918,7 @@ private fun SafetyChecklist(check: ManualSafetyCheck, onChange: (ManualSafetyChe
 @Composable
 private fun CheckRow(label: String, checked: Boolean, onChecked: (Boolean) -> Unit) {
     Row(Modifier.fillMaxWidth().clickable { onChecked(!checked) }.padding(horizontal = 10.dp, vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(checked = checked, onCheckedChange = onChecked); Spacer(Modifier.width(5.dp)); Text(label, modifier = Modifier.weight(1f))
+        Checkbox(checked = checked, onCheckedChange = onChecked, colors = CheckboxDefaults.colors(checkedColor = NeonGreen, checkmarkColor = EnterpriseNavy, uncheckedColor = GlowSilver)); Spacer(Modifier.width(8.dp)); Text(label, modifier = Modifier.weight(1f), color = NeonGreen, fontWeight = FontWeight.SemiBold)
     }
 }
 
