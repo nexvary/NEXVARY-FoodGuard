@@ -68,6 +68,7 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -918,7 +919,7 @@ private fun SafetyChecklist(check: ManualSafetyCheck, onChange: (ManualSafetyChe
 @Composable
 private fun CheckRow(label: String, checked: Boolean, onChecked: (Boolean) -> Unit) {
     Row(Modifier.fillMaxWidth().clickable { onChecked(!checked) }.padding(horizontal = 10.dp, vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(checked = checked, onCheckedChange = onChecked, colors = CheckboxDefaults.colors(checkedColor = NeonGreen, checkmarkColor = EnterpriseNavy, uncheckedColor = GlowSilver)); Spacer(Modifier.width(8.dp)); Text(label, modifier = Modifier.weight(1f), color = NeonGreen, fontWeight = FontWeight.SemiBold)
+        Checkbox(checked = checked, onCheckedChange = onChecked, colors = CheckboxDefaults.colors(checkedColor = Fresh, checkmarkColor = EnterpriseNavy, uncheckedColor = GlowSilver)); Spacer(Modifier.width(8.dp)); Text(label, modifier = Modifier.weight(1f), color = Fresh, fontWeight = FontWeight.SemiBold)
     }
 }
 
