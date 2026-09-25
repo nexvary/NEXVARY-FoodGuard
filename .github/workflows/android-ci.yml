@@ -59,6 +59,17 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Build Google Play AAB
+        run: gradle :app:bundleRelease --stacktrace
+
+      - name: Upload Google Play AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEXVARY-FoodGuard-Google-Play-AAB
+          path: app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+          retention-days: 14
+
   enterprise-ui-rtl-gate:
     name: Enterprise UI / RTL Gate
     needs: build-test-lint
