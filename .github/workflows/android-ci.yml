@@ -158,12 +158,26 @@ jobs:
           tap_text "الإعدادات" enterprise-settings-ar.png
           tap_text "الرئيسية" enterprise-home-return-ar.png
 
+          # Emergency and About are below the first viewport: swipe, dump, then capture.
+          adb shell input swipe 540 1750 540 650 350
+          sleep 1
           adb shell uiautomator dump /sdcard/home.xml >/dev/null 2>&1 || true
           adb shell cat /sdcard/home.xml > home.xml
-          for pair in "الطوارئ:enterprise-emergency-ar.png" "عنا:enterprise-about-ar.png"; do
+          for pair in "الطوارئ والإسعافات الأولية:enterprise-emergency-ar.png" "عنا:enterprise-about-ar.png"; do
             label=${pair%%:*}; out=${pair#*:}
             bounds=$(grep -o 'text="'"$label"'"[^>]*bounds="\[[0-9,]*\]\[[0-9,]*\]"' home.xml | head -1 | sed -n 's/.*bounds="\[\([0-9]*\),\([0-9]*\)\]\[\([0-9]*\),\([0-9]*\)\]".*/\1 \2 \3 \4/p')
-            if [ -n "$bounds" ]; then set -- $bounds; adb shell input tap $((($1+$3)/2)) $((($2+$4)/2)); sleep 2; adb exec-out screencap -p > "$out"; adb shell input keyevent 4; sleep 1; fi
+            [ -n "$bounds" ] || { echo "Cannot find home card: $label" >&2; exit 1; }
+            set -- $bounds
+            adb shell input tap $((($1+$3)/2)) $((($2+$4)/2))
+            sleep 2
+            adb exec-out screencap -p > "$out"
+            test -s "$out"
+            adb shell input keyevent 4
+            sleep 1
+            adb shell input swipe 540 1750 540 650 350
+            sleep 1
+            adb shell uiautomator dump /sdcard/home.xml >/dev/null 2>&1 || true
+            adb shell cat /sdcard/home.xml > home.xml
           done
 
           adb shell cmd locale set-app-locales "$PACKAGE" --user current --locales ""
