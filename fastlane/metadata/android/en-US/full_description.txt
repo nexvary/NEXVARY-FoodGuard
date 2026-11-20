@@ -1,0 +1,3 @@
+NEXVARY FoodGuard by Nexvary Inc. is an offline guide to visible signs of spoilage and food storage. Search the food catalog, review a checklist, and use a photo from the camera or gallery as a visual aid. The app assesses photo quality on your device. Assessment history stays on the device, and you can clear it or share a text summary through Android.
+
+A photo cannot establish whether food is safe to eat. Some hazards have no visible signs. FoodGuard provides educational guidance and does not perform a laboratory test.
