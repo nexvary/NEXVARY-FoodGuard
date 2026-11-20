@@ -1,0 +1,1 @@
+Includes the searchable food catalog, local assessment history, and Arabic and English interfaces.
